@@ -40,4 +40,12 @@ public class Pezzo {
         return (energy==0);
     }//hit
     
+    /**
+     * Controlla se il pezzo è intatto
+     * @return integrità dell'oggetto
+     */
+    public boolean stato(){
+        return (energy==100);
+    }//stato
+    
 }//Pezzo

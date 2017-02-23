@@ -1,7 +1,6 @@
 package agostiniCamposampiero.deserto.carri;
 
 import agostiniCamposampiero.deserto.pos.*;
-import java.util.ArrayList;
 
 /**
  *
@@ -9,7 +8,6 @@ import java.util.ArrayList;
  */
 public abstract class CarroCantiere {
 
-    private ArrayList<Pezzo> tank;
     private Posizione pos;
     private int num;
 
@@ -21,8 +19,7 @@ public abstract class CarroCantiere {
     public CarroCantiere(Posizione pos, int num) {
         this.pos = pos;
         this.num = num;
-        for(int i=0; i<tank.size(); i++) tank.add(new Pezzo());
-    }
+    }//Costruttore
 
     /**
      * Restituisce la posizione
