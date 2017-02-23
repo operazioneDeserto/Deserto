@@ -54,11 +54,21 @@ public class CarroLineare extends CarroCantiere{
      */
     @Override
     public int fuoco(Posizione pos) {
+        return fuoco(pos, false);
+    }//fuoco
+        
+    /**
+     * Colpisce il carro
+     * @param pos   posizione del colpo sparato
+     * @param hidden
+     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
+     */
+    public int fuoco(Posizione pos, boolean hidden) {    
         Posizione tmp = getPos();
         int x=tmp.getX(), y=tmp.getY();
         for(int i=0; i<tank.size(); i++){
             if(pos.equals(tmp)){
-                boolean destroyed =tank.get(i).hit();
+                boolean destroyed =tank.get(i).hit(hidden);
                 if(destroyed) tank.remove(i);
                 if(distrutto()) return -1;
                 else return 0;
