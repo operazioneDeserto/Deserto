@@ -13,9 +13,28 @@ import agostiniCamposampiero.deserto.pos.Posizione;
  * @author FSEVERI\camposampiero3429
  */
 public class CarroTalpa extends CarroLineare{
-
-    public CarroTalpa(Posizione pos, int num) {
-        super(pos, num);
-    }
     
+    private boolean hidden;
+
+    /**
+     * Costruttore parametrico
+     * @param pos   posizione del carro
+     * @param num   numero pezzi del carro
+     * @param hidden    true se il carro è nascosto, false altrimenti
+     */
+    public CarroTalpa(Posizione pos, int num, boolean hidden) {
+        super(pos, num);
+        this.hidden = hidden;
+    }//Costruttore
+    
+    /**
+     * Nasconde il 
+     */
+    public void scoperto(){
+        hidden = false;    
+    }//scoperto
+    
+    public void nascosto(){
+        hidden = true;    
+    }//nascosto
 }
