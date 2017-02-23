@@ -1,14 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package deserto.carri;
+package agostiniCamposampiero.deserto.carri;
+import agostiniCamposampiero.deserto.pos.*;
 
 /**
  *
  * @author FSEVERI\camposampiero3429
  */
-public class CarroCantiere {
-    
+public abstract class CarroCantiere {
+  private Posizione pos;
+  private int num;
+  
+  /**
+   * Costruttore parametrico
+   * @param pos posizione del primo pezzo del carro
+   * @param num numero di pezzi del carro
+   */
+  public CarroCantiere(Posizione pos, int num) {
+    this.pos = pos;
+    this.num = num;
+  }
+  
+  
+  public abstract int stato ();
+  
+  public abstract boolean distrutto ();
+  
+  public abstract void fuoco ();
+   
 }
