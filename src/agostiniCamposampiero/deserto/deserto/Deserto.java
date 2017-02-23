@@ -5,6 +5,9 @@
  */
 package agostiniCamposampiero.deserto.deserto;
 
+import agostiniCamposampiero.deserto.carri.speciali.CarroTalpa;
+import agostiniCamposampiero.deserto.pos.Posizione;
+
 /**
  *
  * @author giaco
@@ -15,7 +18,8 @@ public class Deserto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        CarroTalpa x = new CarroTalpa(new Posizione(1,2), 4, true);
+        System.out.println(x);
     }
     
 }

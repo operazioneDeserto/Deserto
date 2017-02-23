@@ -24,6 +24,7 @@ public class CarroLineare extends CarroCantiere{
      */
     public CarroLineare(Posizione pos, int num){
         super(pos,num);
+        tank = new ArrayList<>();
         for(int i=0; i<tank.size(); i++) tank.add(new Pezzo(i));
     }//Costruttore
 
@@ -77,5 +78,14 @@ public class CarroLineare extends CarroCantiere{
         }
         return 1;
     }//fuoco
+    
+    /**
+     * Restituisce una stringa significativa sull'oggetto
+     * @return stringa significativa
+     */
+    @Override
+    public String toString() {
+        return "Carro attualmente composto da "+tank.size()+" pezzi." + super.toString();
+    }//toString
     
 }//CarroLineare

@@ -50,5 +50,14 @@ public class CarroTalpa extends CarroLineare{
     public int fuoco(Posizione pos) {
         return super.fuoco(pos, hidden);
     }//fuoco
+
+    /**
+     * Restituisce una stringa significativa sull'oggetto
+     * @return stringa significativa
+     */
+    @Override
+    public String toString() {
+        return "CarroTalpa nascosto: "+hidden+". "+ super.toString();
+    }//toString
     
 }//CarroTalpa

@@ -55,5 +55,14 @@ public abstract class CarroCantiere {
      * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
      */
     public abstract int fuoco(Posizione pos);
+    
+    /**
+     * Restituisce una stringa significativa sull'oggetto
+     * @return stringa significativa
+     */
+    @Override
+    public String toString() {
+        return "Carro originariamente composto da "+num+" pezzi. La posizione del carro è "+pos.toString()+" .";
+    }//toString
 
 }
