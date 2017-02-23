@@ -11,4 +11,33 @@ package agostiniCamposampiero.deserto.pos;
  */
 public class Pezzo {
     
-}
+    private int energy;
+    
+    /**
+     * Costruttore non parametrico
+     */
+    public Pezzo(){
+        energy = 100;
+    }//Costruttore
+    
+    /**
+     * Metodo per colpire il pezzo, da utilizzare con carri non occultabili
+     * @return true se il pezzo è stato distrutto, false altrimenti
+     */
+    public boolean hit(){
+        energy-=50;
+        return (energy==0);
+    }//hit  
+    
+    /**
+     * Metodo per colpire il pezzo, da utilizzare con carri occultabili
+     * @param hidden    true se il carro è nascosto, false altrimenti
+     * @return true se il pezzo è stato distrutto, false altrimenti
+     */
+    public boolean hit(boolean hidden){
+        if(hidden) energy-=25;
+        else energy-=50;
+        return (energy==0);
+    }//hit
+    
+}//Pezzo
