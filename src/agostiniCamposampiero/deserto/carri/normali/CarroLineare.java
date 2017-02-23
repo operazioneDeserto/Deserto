@@ -61,7 +61,7 @@ public class CarroLineare extends CarroCantiere{
     /**
      * Colpisce il carro
      * @param pos   posizione del colpo sparato
-     * @param hidden
+     * @param hidden    true se il carro è nascosto, false altrimenti
      * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
      */
     public int fuoco(Posizione pos, boolean hidden) {    
@@ -69,8 +69,7 @@ public class CarroLineare extends CarroCantiere{
         int x=tmp.getX(), y=tmp.getY();
         for(int i=0; i<tank.size(); i++){
             if(pos.equals(tmp)){
-                boolean destroyed =tank.get(i).hit(hidden);
-                if(destroyed) tank.remove(i);
+                if(tank.get(i).hit(hidden)) tank.remove(i);
                 if(distrutto()) return -1;
                 else return 0;
             }
@@ -87,7 +86,7 @@ public class CarroLineare extends CarroCantiere{
     public String toString() {
         String ris = "\n";
         for(Pezzo tmp:tank) ris+=tmp.toString();
-        return "Carro attualmente composto da "+tank.size()+" pezzi." +ris + super.toString();
+        return "CarroLineare attualmente composto da "+tank.size()+" pezzi." +ris + super.toString();
     }//toString
     
 }//CarroLineare
