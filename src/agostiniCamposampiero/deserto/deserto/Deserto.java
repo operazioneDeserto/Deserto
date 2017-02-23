@@ -41,6 +41,7 @@ public class Deserto {
         System.out.println(z);
         z.fuoco(new Posizione(2,2));
         System.out.println(z);
+        new Grafica().setVisible(true);
     }
     
 }
