@@ -25,7 +25,7 @@ public class CarroLineare extends CarroCantiere{
     public CarroLineare(Posizione pos, int num){
         super(pos,num);
         tank = new ArrayList<>();
-        for(int i=0; i<tank.size(); i++) tank.add(new Pezzo(i));
+        for(int i=0; i<num; i++) tank.add(new Pezzo(i));
     }//Costruttore
 
     /**
@@ -74,7 +74,7 @@ public class CarroLineare extends CarroCantiere{
                 if(distrutto()) return -1;
                 else return 0;
             }
-            tmp = new Posizione(x++,y++);
+            tmp = new Posizione(x++,y);
         }
         return 1;
     }//fuoco
@@ -85,7 +85,9 @@ public class CarroLineare extends CarroCantiere{
      */
     @Override
     public String toString() {
-        return "Carro attualmente composto da "+tank.size()+" pezzi." + super.toString();
+        String ris = "\n";
+        for(Pezzo tmp:tank) ris+=tmp.toString();
+        return "Carro attualmente composto da "+tank.size()+" pezzi." +ris + super.toString();
     }//toString
     
 }//CarroLineare

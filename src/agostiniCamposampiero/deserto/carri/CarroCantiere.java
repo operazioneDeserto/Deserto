@@ -8,8 +8,8 @@ import agostiniCamposampiero.deserto.pos.*;
  */
 public abstract class CarroCantiere {
 
-    private Posizione pos;
-    private int num;
+    private final Posizione pos;
+    private final int num;
 
     /**
      * Costruttore parametrico
@@ -62,7 +62,7 @@ public abstract class CarroCantiere {
      */
     @Override
     public String toString() {
-        return "Carro originariamente composto da "+num+" pezzi. La posizione del carro è "+pos.toString()+" .";
+        return "Carro originariamente composto da "+num+" pezzi. La posizione del carro è ("+pos.toString()+").";
     }//toString
 
 }

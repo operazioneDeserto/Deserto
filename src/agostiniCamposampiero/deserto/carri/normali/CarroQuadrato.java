@@ -14,9 +14,14 @@ import agostiniCamposampiero.deserto.pos.Posizione;
  */
 public class CarroQuadrato extends CarroCantiere{
 
+    /**
+     * Costruttore parametrico
+     * @param pos   posizione del carro
+     * @param num   numero di pezzi del carro
+     */
     public CarroQuadrato(Posizione pos, int num) {
         super(pos, num);
-    }
+    }//Costruttore
 
     @Override
     public int stato() {

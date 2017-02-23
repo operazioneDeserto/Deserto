@@ -29,7 +29,7 @@ public class Pezzo {
      */
     public boolean hit(){
         energy-=50;
-        return (energy==0);
+        return (energy<=0);
     }//hit  
     
     /**
@@ -40,7 +40,7 @@ public class Pezzo {
     public boolean hit(boolean hidden){
         if(hidden) energy-=25;
         else energy-=50;
-        return (energy==0);
+        return (energy<=0);
     }//hit
     
     /**
@@ -50,5 +50,14 @@ public class Pezzo {
     public boolean stato(){
         return (energy==100);
     }//stato
+    
+    /**
+     * Restituisce una stringa significativa sull'oggetto
+     * @return stringa significativa
+     */
+    @Override
+    public String toString() {
+        return "Pezzo n° "+num+" Energia: "+energy+".\n";
+    }//toString
     
 }//Pezzo

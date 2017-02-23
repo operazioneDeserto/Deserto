@@ -5,6 +5,7 @@
  */
 package agostiniCamposampiero.deserto.deserto;
 
+import agostiniCamposampiero.deserto.carri.normali.CarroLineare;
 import agostiniCamposampiero.deserto.carri.speciali.CarroTalpa;
 import agostiniCamposampiero.deserto.pos.Posizione;
 
@@ -19,7 +20,20 @@ public class Deserto {
      */
     public static void main(String[] args) {
         CarroTalpa x = new CarroTalpa(new Posizione(1,2), 4, true);
+        x.fuoco(new Posizione(2,2));
         System.out.println(x);
+        x.fuoco(new Posizione(2,2));
+        System.out.println(x);
+        x.scoperto();
+        x.fuoco(new Posizione(2,2));
+        System.out.println(x);
+        CarroLineare y = new CarroLineare(new Posizione(1,2), 4);
+        y.fuoco(new Posizione(2,2));
+        System.out.println(y);
+        y.fuoco(new Posizione(2,2));
+        System.out.println(y);
+        y.fuoco(new Posizione(2,2));
+        System.out.println(y);
     }
     
 }
