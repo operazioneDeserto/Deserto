@@ -1,4 +1,4 @@
-package deserto;
+package agostiniCamposampiero.deserto.pos;
 
 /**
  *
