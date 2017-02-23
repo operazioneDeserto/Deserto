@@ -28,13 +28,27 @@ public class CarroTalpa extends CarroLineare{
     }//Costruttore
     
     /**
-     * Nasconde il 
+     * Scopre il carro
      */
     public void scoperto(){
         hidden = false;    
     }//scoperto
     
+    /**
+     * Nasconde il carro
+     */
     public void nascosto(){
         hidden = true;    
     }//nascosto
-}
+    
+        /**
+     * Colpisce il carro
+     * @param pos   posizione del colpo sparato
+     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
+     */
+    @Override
+    public int fuoco(Posizione pos) {
+        return super.fuoco(pos, hidden);
+    }//fuoco
+    
+}//CarroTalpa
