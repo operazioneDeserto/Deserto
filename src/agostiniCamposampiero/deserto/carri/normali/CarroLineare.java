@@ -33,7 +33,7 @@ public class CarroLineare extends CarroCantiere{
      */
     @Override
     public int stato() {
-        if(tank.size()==0) return -1;
+        if(tank.isEmpty()) return -1;
         for(Pezzo tmp:tank) if(!tmp.stato()) return 0;
         return 1;
     }//stato
