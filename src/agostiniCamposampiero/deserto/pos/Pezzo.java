@@ -12,11 +12,14 @@ package agostiniCamposampiero.deserto.pos;
 public class Pezzo {
     
     private int energy;
+    private final int num;
     
     /**
      * Costruttore non parametrico
+     * @param num   numero all'interno del carro
      */
-    public Pezzo(){
+    public Pezzo(int num){
+        this.num = num;
         energy = 100;
     }//Costruttore
     

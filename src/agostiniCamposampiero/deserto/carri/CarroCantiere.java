@@ -43,8 +43,17 @@ public abstract class CarroCantiere {
      */
     public abstract int stato();
 
+    /**
+     * Verifica se il carro è stato distrutto
+     * @return ture se il carro è distrutto, false altrimenti
+     */
     public abstract boolean distrutto();
 
-    public abstract void fuoco();
+    /**
+     * Colpisce il carro
+     * @param pos   posizione del colpo sparato
+     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
+     */
+    public abstract int fuoco(Posizione pos);
 
 }

@@ -24,7 +24,7 @@ public class CarroLineare extends CarroCantiere{
      */
     public CarroLineare(Posizione pos, int num){
         super(pos,num);
-        for(int i=0; i<tank.size(); i++) tank.add(new Pezzo());
+        for(int i=0; i<tank.size(); i++) tank.add(new Pezzo(i));
     }//Costruttore
 
     /**
@@ -33,21 +33,39 @@ public class CarroLineare extends CarroCantiere{
      */
     @Override
     public int stato() {
-        if(tank.isEmpty()) return -1;
+        if(distrutto()) return -1;
         for(Pezzo tmp:tank) if(!tmp.stato()) return 0;
         return 1;
     }//stato
 
+    /**
+     * Verifica se il carro è stato distrutto
+     * @return ture se il carro è distrutto, false altrimenti
+     */
     @Override
     public boolean distrutto() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (tank.isEmpty());           
+    }//distrutto
 
-    }
-
+    /**
+     * Colpisce il carro
+     * @param pos   posizione del colpo sparato
+     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
+     */
     @Override
-    public void fuoco() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-   
-}
+    public int fuoco(Posizione pos) {
+        Posizione tmp = getPos();
+        int x=tmp.getX(), y=tmp.getY();
+        for(int i=0; i<tank.size(); i++){
+            if(pos.equals(tmp)){
+                boolean destroyed =tank.get(i).hit();
+                if(destroyed) tank.remove(i);
+                if(distrutto()) return -1;
+                else return 0;
+            }
+            tmp = new Posizione(x++,y++);
+        }
+        return 1;
+    }//fuoco
+    
+}//CarroLineare
