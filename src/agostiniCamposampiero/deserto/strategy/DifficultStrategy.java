@@ -9,7 +9,9 @@ import java.util.ArrayList;
  */
 public class DifficultStrategy implements Strategy {
    
-    private ArrayList<Posizione> coord;
+    ///DA FARE !!!!!!!
+
+    private final ArrayList<Posizione> coord;
     private Posizione last;
     private boolean lastHit;
     private boolean repeat;
@@ -48,5 +50,9 @@ public class DifficultStrategy implements Strategy {
     public Posizione nextHit() {
         return last;
     }//nextHit
+    
+    private Posizione findNext(){
+        return last;
+    }
     
 }

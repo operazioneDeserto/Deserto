@@ -1,8 +1,10 @@
 package agostiniCamposampiero.deserto.deserto;
 
+import agostiniCamposampiero.deserto.grafica.*;
 import agostiniCamposampiero.deserto.carri.normali.*;
 import agostiniCamposampiero.deserto.carri.speciali.CarroTalpa;
 import agostiniCamposampiero.deserto.pos.Posizione;
+import javax.swing.JFrame;
 
 /**
  *
@@ -36,7 +38,9 @@ public class Deserto {
         System.out.println(z);
         z.fuoco(new Posizione(2,2));
         System.out.println(z);
-        new Grafica().setVisible(true);
+        JFrame my = new Start();
+        my.setSize(300,245);
+        my.setVisible(true);
     }
     
 }

@@ -1,4 +1,4 @@
-package agostiniCamposampiero.deserto.deserto;
+package agostiniCamposampiero.deserto.grafica;
 
 /**
  *
