@@ -36,8 +36,10 @@ public class MediumStrategy implements Strategy{
      */
     @Override
     public void hitFeedback(int result) {
-        if(result == 0) coord.remove(pos);
-        else pos = coord.get((int) (Math.random()*coord.size())); 
+        if(result != 0){
+            pos = coord.get((int) (Math.random()*coord.size()));
+            coord.remove(pos);
+        } 
     }//hitFeedback
       
 
