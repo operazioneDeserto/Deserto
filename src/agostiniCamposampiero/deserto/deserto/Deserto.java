@@ -30,7 +30,7 @@ public class Deserto {
     public static void main(String[] args) {
         
         CarroQuadrato x = new CarroQuadrato(new Posizione(12,22), 9);
-        Strategy stra = new MediumStrategy(50, 60);
+        Strategy stra = new DifficultStrategy(50, 60);
         int stato=0;
         Posizione pos = stra.nextHit();
         while(stato>=0){

@@ -49,15 +49,15 @@ public class DifficultStrategy implements Strategy {
             switch(norden){
                 case 0:
                     norden = 1;
-                    if(x>1) pos = new Posizione(x--,y);
+                    if(x>1) pos = new Posizione(x-=1,y);
                     else norden++;
                     break;                    
                 case 1:
-                    if(x>1) pos = new Posizione(x--,y);
+                    if(x>1) pos = new Posizione(x-=1,y);
                     else norden++;
                     break;
                 case 2:
-                    if(y>1) pos = new Posizione(x,y--);
+                    if(y>1) pos = new Posizione(x,y-=1);
                     else norden++;                    
                     break;
                 default: break;
@@ -66,16 +66,18 @@ public class DifficultStrategy implements Strategy {
             switch(norden){
                 case 1:
                     norden++;
-                    if(y>1) pos = new Posizione(x++,y);
+                    if(y>1) pos = new Posizione(x+=1,y);
                     break;
                 case 2:
                     norden++;
-                    pos = new Posizione(x,y++);
+                    pos = new Posizione(x,y+=1);
                     break;
                 default: break;
             }
         }    
         coord.remove(pos);
+        System.out.println(pos);
+        System.out.println(norden);
     }//hitFeedback
       
 
