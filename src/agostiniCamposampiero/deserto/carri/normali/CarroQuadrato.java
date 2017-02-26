@@ -57,25 +57,22 @@ public class CarroQuadrato extends CarroCantiere {
     public int fuoco(Posizione pos) {
         Posizione tmp = getPos();
         int x = tmp.getX(), y = tmp.getY();
-        int lato = (int) Math.sqrt(getNum());
-        int a=tank.size()%lato, b=tank.size()/lato;
-        for (int i = 0; i < b; i++) {
-            System.out.print("\n");
-            for (int j = 0; j < (lato-a); j++) {
-                System.out.print("* ");
+        int lato =(int) Math.sqrt(getNum());
+        int righe = lato -(getNum()-tank.size())/lato;
+        for (int i = 0; i < righe; i++) {
+            int a = tank.size()-i*lato>lato?lato:tank.size()-i*lato;
+            for (int j = 0; j < a; j++) {
                 if (pos.equals(tmp)) {
-                    if (tank.get(i).hit()) tank.remove(i);
+                    if (tank.get(i*3+j).hit()) tank.remove(i*3+j);
                     if (distrutto()) return -1;
                     else return 0;
                 }
-                if(j==(lato-a)){
-                    x-=lato;
-                    tmp = new Posizione(x, y++);
-                }
-                else tmp = new Posizione(x++, y);
+                if(j==lato-1){
+                    x-=lato-1;
+                    tmp = new Posizione(x, y+=1);
+                } else tmp = new Posizione(x+=1, y);
             }
         }
-        System.out.println("\n\n");
         return 1;
     }//fuoco
 

@@ -29,12 +29,11 @@ public class Deserto {
      */
     public static void main(String[] args) {
         
-        CarroLineare x = new CarroLineare(new Posizione(12,22), 9);
+        CarroQuadrato x = new CarroQuadrato(new Posizione(12,22), 9);
         Strategy stra = new MediumStrategy(50, 60);
-        int stato=1;
+        int stato=0;
+        Posizione pos = stra.nextHit();
         while(stato>=0){
-            
-            Posizione pos = stra.nextHit();
             stato = x.fuoco(pos);
             if(stato==0||stato==-1){
                 System.out.println(x.toString());
@@ -42,7 +41,12 @@ public class Deserto {
                 System.out.println("*******************************\n\n");
             }
             stra.hitFeedback(stato);
+            pos = stra.nextHit();
         }
+        System.out.println("CARRO DISTRUTTO");
+
+         
+
         /*
         CarroLineare y = new CarroLineare(new Posizione(1,2), 4);
         y.fuoco(new Posizione(2,2));
@@ -70,7 +74,7 @@ public class Deserto {
 */
     }
 
-    private static void playSound(boolean type) {
+    private void playSound(boolean type) {
         String url;
         if (type) url = "src/agostiniCamposampiero/deserto/resources/hit.wav";
         else url = "src/agostiniCamposampiero/deserto/resources/missed.wav";
