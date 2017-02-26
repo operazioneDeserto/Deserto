@@ -51,7 +51,6 @@ public class Deserto {
         my.setSize(300,245);
         my.setVisible(true);*/
         playSound(true);
- 
         Scanner in = new Scanner(System.in);
         int i = in.nextInt();
         playSound(false);
