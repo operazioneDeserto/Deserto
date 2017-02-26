@@ -88,16 +88,15 @@ public class Deserto {
         JFrame my = new Start();
         my.setSize(300,245);
         my.setVisible(true);
-        
+        */
         playSound(true);
         Scanner in = new Scanner(System.in);
         int i = in.nextInt();
         playSound(false);
         i = in.nextInt();
-*/
     }
 
-    private void playSound(boolean type) {
+    private static void playSound(boolean type) {
         String url;
         if (type) url = "src/agostiniCamposampiero/deserto/resources/hit.wav";
         else url = "src/agostiniCamposampiero/deserto/resources/missed.wav";

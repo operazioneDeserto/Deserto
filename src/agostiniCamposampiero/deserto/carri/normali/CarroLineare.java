@@ -70,7 +70,7 @@ public class CarroLineare extends CarroCantiere{
                 else return 0;
             }
             System.out.println(tmp);
-            tmp = new Posizione(x+=1,y);
+            tmp = new Posizione(++x,y);
             System.out.println("dopo:"+tmp.toString());
         }
         return 1;

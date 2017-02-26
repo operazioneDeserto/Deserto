@@ -69,8 +69,8 @@ public class CarroQuadrato extends CarroCantiere {
                 }
                 if(j==lato-1){
                     x-=lato-1;
-                    tmp = new Posizione(x, y+=1);
-                } else tmp = new Posizione(x+=1, y);
+                    tmp = new Posizione(x, ++y);
+                } else tmp = new Posizione(++x, y);
             }
         }
         return 1;

@@ -49,15 +49,15 @@ public class DifficultStrategy implements Strategy {
             switch(norden){
                 case 0:
                     norden = 1;
-                    if(x>1) pos = new Posizione(x-=1,y);
+                    if(x>1) pos = new Posizione(--x,y);
                     else norden++;
                     break;                    
                 case 1:
-                    if(x>1) pos = new Posizione(x-=1,y);
+                    if(x>1) pos = new Posizione(--x,y);
                     else norden++;
                     break;
                 case 2:
-                    if(y>1) pos = new Posizione(x,y-=1);
+                    if(y>1) pos = new Posizione(x,--y);
                     else norden++;                    
                     break;
                 default: break;
@@ -66,11 +66,11 @@ public class DifficultStrategy implements Strategy {
             switch(norden){
                 case 1:
                     norden++;
-                    if(y>1) pos = new Posizione(x+=1,y);
+                    if(y>1) pos = new Posizione(++x,y);
                     break;
                 case 2:
                     norden++;
-                    pos = new Posizione(x,y+=1);
+                    pos = new Posizione(x,++y);
                     break;
                 default: break;
             }
