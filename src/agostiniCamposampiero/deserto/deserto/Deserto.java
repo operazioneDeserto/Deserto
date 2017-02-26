@@ -29,7 +29,7 @@ public class Deserto {
      */
     public static void main(String[] args) {
         
-        CarroQuadrato x = new CarroQuadrato(new Posizione(12,22), 9);
+        CarroLineare x = new CarroLineare(new Posizione(12,22), 9);
         Strategy stra = new MediumStrategy(50, 60);
         int stato=1;
         while(stato>=0){
