@@ -76,8 +76,6 @@ public class DifficultStrategy implements Strategy {
             }
         }    
         coord.remove(pos);
-        System.out.println(pos);
-        System.out.println(norden);
     }//hitFeedback
       
 

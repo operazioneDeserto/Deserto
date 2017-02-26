@@ -29,21 +29,44 @@ public class Deserto {
      */
     public static void main(String[] args) {
         
+        int n1=0, n2=0, n3=0;
         CarroQuadrato x = new CarroQuadrato(new Posizione(12,22), 9);
-        Strategy stra = new DifficultStrategy(50, 60);
+        Strategy stra = new EasyStrategy(50, 60);
         int stato=0;
         Posizione pos = stra.nextHit();
         while(stato>=0){
             stato = x.fuoco(pos);
-            if(stato==0||stato==-1){
-                System.out.println(x.toString());
-                System.out.println(pos);
-                System.out.println("*******************************\n\n");
-            }
             stra.hitFeedback(stato);
             pos = stra.nextHit();
+            n1++;
         }
-        System.out.println("CARRO DISTRUTTO");
+        
+        x = new CarroQuadrato(new Posizione(12,22), 9);
+        stra = new MediumStrategy(50, 60);
+        stato=0;
+        pos = stra.nextHit();
+        while(stato>=0){
+            stato = x.fuoco(pos);
+            stra.hitFeedback(stato);
+            pos = stra.nextHit();
+            n2++;
+        }
+        
+        
+        x = new CarroQuadrato(new Posizione(12,22), 9);
+        stra = new DifficultStrategy(50, 60);
+        stato=0;
+        pos = stra.nextHit();
+        while(stato>=0){
+            stato = x.fuoco(pos);
+            stra.hitFeedback(stato);
+            pos = stra.nextHit();
+            n3++;
+        }
+        
+        System.out.println("Facile: "+n1);
+        System.out.println("Media: "+n2);
+        System.out.println("Difficile: "+n3);
 
          
 
