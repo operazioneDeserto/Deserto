@@ -60,7 +60,9 @@ public class CarroQuadrato extends CarroCantiere {
         int lato = (int) Math.sqrt(getNum());
         int a=tank.size()%lato, b=tank.size()/lato;
         for (int i = 0; i < b; i++) {
+            System.out.print("\n");
             for (int j = 0; j < (lato-a); j++) {
+                System.out.print("* ");
                 if (pos.equals(tmp)) {
                     if (tank.get(i).hit()) tank.remove(i);
                     if (distrutto()) return -1;
@@ -73,6 +75,7 @@ public class CarroQuadrato extends CarroCantiere {
                 else tmp = new Posizione(x++, y);
             }
         }
+        System.out.println("\n\n");
         return 1;
     }//fuoco
 

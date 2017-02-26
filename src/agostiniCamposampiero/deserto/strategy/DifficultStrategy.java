@@ -41,10 +41,8 @@ public class DifficultStrategy implements Strategy {
     @Override
     public void hitFeedback(int result) {
         int x=pos.getX(), y=pos.getY();
-        if(result>0 && norden==0){
-            coord.remove(pos);
-            pos = coord.get((int) (Math.random()*coord.size()));
-        } else if(result<0){
+        if(result>0 && norden==0) pos = coord.get((int) (Math.random()*coord.size()));
+        else if(result<0){
             norden = 0;
             pos = coord.get((int) (Math.random()*coord.size()));
         } else if (result==0){

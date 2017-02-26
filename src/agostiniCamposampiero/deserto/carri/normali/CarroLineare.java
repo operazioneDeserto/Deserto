@@ -63,7 +63,9 @@ public class CarroLineare extends CarroCantiere{
         Posizione tmp = getPos();
         int x=tmp.getX(), y=tmp.getY();
         for(int i=0; i<tank.size(); i++){
+            System.out.println(i);
             if(pos.equals(tmp)){
+                System.out.println("Posizione pezzo colpito: "+tmp.toString());
                 if(tank.get(i).hit(hidden)) tank.remove(i);
                 if(distrutto()) return -1;
                 else return 0;
