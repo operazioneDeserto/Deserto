@@ -9,12 +9,9 @@ import java.util.ArrayList;
  */
 public class DifficultStrategy implements Strategy {
    
-    ///DA FARE !!!!!!!
-
     private final ArrayList<Posizione> coord;
-    private Posizione last;
-    private boolean lastHit;
-    private boolean repeat;
+    private Posizione pos;
+    private int norden;
     private final int height;
     private final int width;
 
@@ -26,21 +23,63 @@ public class DifficultStrategy implements Strategy {
     public DifficultStrategy(int height, int width) {
         this.height = height;
         this.width = width;
-        repeat = false;
+        norden = 0;
         coord = new ArrayList<>();
         for(int i=1; i<=height; i++){
             if(i%2==0) for(int j=2; j<width; j++) coord.add(new Posizione(i,j));
             else for(int j=1; j<width; j++) coord.add(new Posizione(i,j));
         }
+        pos = coord.get((int) (Math.random()*coord.size()));
     }//Costruttore parametrico
-    
-   /**
-     * E' stato colpito un carro nella precedente posizione
-     * @param result
+
+    /**
+     * Raccoglie il feedback del fuoco sull'ultima posizione restituita
+     * Metodo implementato con il sistema "norden", che permette al PC di trovare attraverso un
+     * algoritmo l'angolo in alto a destra del carro, per poi distruggerlo del tutto
+     * @param result    risultato ultimo sparo
      */
-    public void hit(boolean result){
-        if(last!=null && result) repeat = true;
-    }
+    @Override
+    public void hitFeedback(int result) {
+        int x=pos.getX(), y=pos.getY();
+        if(result>0 && norden==0){
+            coord.remove(pos);
+            pos = coord.get((int) (Math.random()*coord.size()));
+        } else if(result<0){
+            norden = 0;
+            pos = coord.get((int) (Math.random()*coord.size()));
+        } else if (result==0){
+            switch(norden){
+                case 0:
+                    norden = 1;
+                    if(x>1) pos = new Posizione(x--,y);
+                    else norden++;
+                    break;                    
+                case 1:
+                    if(x>1) pos = new Posizione(x--,y);
+                    else norden++;
+                    break;
+                case 2:
+                    if(y>1) pos = new Posizione(x,y--);
+                    else norden++;                    
+                    break;
+                default: break;
+            }
+        } else {
+            switch(norden){
+                case 1:
+                    norden++;
+                    if(y>1) pos = new Posizione(x++,y);
+                    break;
+                case 2:
+                    norden++;
+                    pos = new Posizione(x,y++);
+                    break;
+                default: break;
+            }
+        }    
+        coord.remove(pos);
+    }//hitFeedback
+      
 
     /**
      * Restiuisce la posizione del prossimo colpo da sparare
@@ -48,11 +87,7 @@ public class DifficultStrategy implements Strategy {
      */
     @Override
     public Posizione nextHit() {
-        return last;
+        return pos;
     }//nextHit
-    
-    private Posizione findNext(){
-        return last;
-    }
-    
-}
+
+}//DifficultStrategy

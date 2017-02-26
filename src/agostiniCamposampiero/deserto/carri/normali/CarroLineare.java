@@ -57,7 +57,7 @@ public class CarroLineare extends CarroCantiere{
      * Colpisce il carro
      * @param pos   posizione del colpo sparato
      * @param hidden    true se il carro è nascosto, false altrimenti
-     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
+     * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non è stato colpito
      */
     public int fuoco(Posizione pos, boolean hidden) {    
         Posizione tmp = getPos();
