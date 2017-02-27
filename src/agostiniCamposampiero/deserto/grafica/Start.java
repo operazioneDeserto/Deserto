@@ -50,6 +50,7 @@ public class Start extends javax.swing.JFrame implements ChangeListener {
         difficultySlider.setMajorTickSpacing(1);
         difficultySlider.setMaximum(2);
         difficultySlider.setMinorTickSpacing(1);
+        difficultySlider.setValue(1);
         difficultySlider.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         difficultySlider.setOpaque(false);
         difficultySlider.addChangeListener(this);
@@ -58,7 +59,7 @@ public class Start extends javax.swing.JFrame implements ChangeListener {
 
         subTitle2Start.setText("Difficoltà della partita");
         getContentPane().add(subTitle2Start);
-        subTitle2Start.setBounds(90, 120, 140, 14);
+        subTitle2Start.setBounds(100, 120, 140, 14);
 
         titleStart.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         titleStart.setText("Simulatore di battaglia");
@@ -71,7 +72,7 @@ public class Start extends javax.swing.JFrame implements ChangeListener {
 
         difficultyLabel2.setText("Normale");
         getContentPane().add(difficultyLabel2);
-        difficultyLabel2.setBounds(120, 170, 50, 14);
+        difficultyLabel2.setBounds(130, 170, 50, 14);
 
         difficultyLabel3.setText("Difficile");
         getContentPane().add(difficultyLabel3);

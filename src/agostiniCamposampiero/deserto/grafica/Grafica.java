@@ -1,26 +1,28 @@
 package agostiniCamposampiero.deserto.grafica;
 
-import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
  *
  * @author giaco
  */
-public class Grafica extends javax.swing.JFrame {
+public class Grafica extends JFrame {
 
     /**
      * Creates new form Grafica
      */
     public Grafica() {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(20,20,(int)(screenSize.width/10*7.5), screenSize.height/10*6);
+        setVisible(true);
         messaggi = new JFrame();
         pannelloCtrl = new JFrame();
+        messaggi.setBounds(20,screenSize.height/10*6+20,(int)(screenSize.width-40), screenSize.height/10*3);
         messaggi.setVisible(true);
-        messaggi.setSize(1320, 200);
-        messaggi.setLocation(20,490);
-        pannelloCtrl.setSize(300, 450);
-        pannelloCtrl.setLocation(1040,20);
+        pannelloCtrl.setBounds(40+(int)(screenSize.width/10*7.5),20,(int)(screenSize.width/10*2)+10, screenSize.height/10*6);
         pannelloCtrl.setVisible(true);
     }
     

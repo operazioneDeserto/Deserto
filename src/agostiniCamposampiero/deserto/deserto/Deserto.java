@@ -45,9 +45,8 @@ public class Deserto {
      */
     private static void startSimulator(){
         Grafica x = new Grafica();
-        x.setVisible(true);
-        x.setSize(1000,450);
-        x.setLocation(20, 20);
+        
+
         playSound(true);        
     }//starSimulator
     
