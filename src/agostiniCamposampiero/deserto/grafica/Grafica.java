@@ -24,6 +24,7 @@ public class Grafica extends JFrame {
         messaggi.setVisible(true);
         pannelloCtrl.setBounds(40+(int)(screenSize.width/10*7.5),20,(int)(screenSize.width/10*2)+10, screenSize.height/10*6);
         pannelloCtrl.setVisible(true);
+        backgroundDeserto.setSize((int)(screenSize.width/10*7.5), screenSize.height/10*6);
     }
     
     /**
@@ -35,22 +36,22 @@ public class Grafica extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        backgroundDeserto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Deserto");
         setSize(new java.awt.Dimension(600, 400));
         getContentPane().setLayout(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agostiniCamposampiero/deserto/resources/sand.png"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 1030, 490);
+        backgroundDeserto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agostiniCamposampiero/deserto/resources/sand.png"))); // NOI18N
+        getContentPane().add(backgroundDeserto);
+        backgroundDeserto.setBounds(0, 0, 2048, 490);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel backgroundDeserto;
     // End of variables declaration//GEN-END:variables
     
     private JFrame pannelloCtrl;
