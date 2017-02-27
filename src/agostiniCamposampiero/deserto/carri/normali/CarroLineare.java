@@ -77,6 +77,24 @@ public class CarroLineare extends CarroCantiere{
     }//fuoco
     
     /**
+     * Attacco dei guastatori
+     * @return percentuale di riuscita dell'assalto di una squadra di guastatori
+     */
+    @Override
+    public int sapperAttack (){
+        return sapperAttack (false);
+    }
+    
+    /**
+     * Attacco dei guastatori
+     * @return percentuale di riuscita dell'assalto di una squadra di guastatori
+     */
+    public int sapperAttack (boolean hidden){
+        if (!hidden) return tank.size()*2;
+        return 0;
+    }
+    
+    /**
      * Restituisce una stringa significativa sull'oggetto
      * @return stringa significativa
      */

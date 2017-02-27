@@ -57,6 +57,12 @@ public abstract class CarroCantiere {
     public abstract int fuoco(Posizione pos);
     
     /**
+     * Attacco dei guastatori
+     * @return percentuale di riuscita dell'assalto di una squadra di guastatori
+     */
+    public abstract int sapperAttack();
+    
+    /**
      * Restituisce una stringa significativa sull'oggetto
      * @return stringa significativa
      */

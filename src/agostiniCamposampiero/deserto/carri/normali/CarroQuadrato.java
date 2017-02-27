@@ -75,7 +75,16 @@ public class CarroQuadrato extends CarroCantiere {
         }
         return 1;
     }//fuoco
-
+    
+    /**
+     * Attacco dei guastatori
+     * @return percentuale di riuscita dell'assalto di una squadra di guastatori
+     */
+    @Override
+    public int sapperAttack (){
+        return 0;
+    }
+    
     /**
      * Restituisce una stringa significativa sull'oggetto
      *

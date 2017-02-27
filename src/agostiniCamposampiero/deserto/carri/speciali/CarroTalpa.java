@@ -36,7 +36,16 @@ public class CarroTalpa extends CarroLineare{
         hidden = true;    
     }//nascosto
     
-        /**
+    /**
+     * Attacco dei guastatori
+     * @return percentuale di riuscita dell'assalto di una squadra di guastatori
+     */
+    @Override
+    public int sapperAttack (){
+        return super.sapperAttack(hidden);
+    }
+    
+    /**
      * Colpisce il carro
      * @param pos   posizione del colpo sparato
      * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito, >0 se il carro non + stato colpito
