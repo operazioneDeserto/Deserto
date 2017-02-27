@@ -2,15 +2,6 @@ package agostiniCamposampiero.deserto.deserto;
 
 import agostiniCamposampiero.deserto.carri.*;
 import agostiniCamposampiero.deserto.grafica.*;
-import agostiniCamposampiero.deserto.carri.normali.*;
-import agostiniCamposampiero.deserto.carri.speciali.*;
-import agostiniCamposampiero.deserto.pos.Posizione;
-import agostiniCamposampiero.deserto.strategy.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +11,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +20,8 @@ public class Deserto {
     
     private ArrayList<CarroCantiere> armata;
     private static int difficulty;
+    private final int TIME = 5000;
+    private int bullets;
 
     /**
      * Costruttore non parametrico
@@ -41,7 +31,7 @@ public class Deserto {
         Start start = new Start();
         start.setVisible(true);
         start.setSize(295, 280);
-    }
+    }//Costruttore
 
     /**
      * @param args the command line arguments
@@ -53,16 +43,19 @@ public class Deserto {
     /**
      * Avvia il simulatore di battaglia
      */
-    private static void starSimulator(){
+    private static void startSimulator(){
         Grafica x = new Grafica();
         x.setVisible(true);
+        x.setSize(1000,450);
+        x.setLocation(20, 20);
+        playSound(true);        
     }//starSimulator
     
     /**
      * Riproduce un effetto sonoro specificato
      * @param type identificatore dell'effetto sonoro da riprodurre
      */
-    private void playSound(boolean type) {
+    private static void playSound(boolean type) {
         String url = type?"src/agostiniCamposampiero/deserto/resources/hit.wav":"src/agostiniCamposampiero/deserto/resources/missed.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(url).getAbsoluteFile());
@@ -80,7 +73,7 @@ public class Deserto {
      */
     public static void setDifficulty(int x){
         difficulty = x;
-        starSimulator();
+        startSimulator();
     }//setDifficulty
 
 }//Deserto
