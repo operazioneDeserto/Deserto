@@ -27,16 +27,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.text.DefaultCaret;
 
 /**
  *
  * @author giaco
  */
-public class Deserto extends JFrame {
+public class Deserto extends JFrame implements ActionListener{
     
     private final JFrame pannelloCtrl;
     private final JFrame messaggi;
@@ -46,6 +48,8 @@ public class Deserto extends JFrame {
     private final int TIME = 5000;
     private int bullets;
     private JSlider sliderDiff;
+    private JButton save;
+
 
 
     /**
@@ -125,49 +129,50 @@ public class Deserto extends JFrame {
         JLabel title = new JLabel();
         title.setText("Pannello di controllo");
         title.setFont(new Font("Tahoma",Font.PLAIN, 18));
+        controllo.add(title);
         //Difficoltà
         JLabel subTitleDiff = new JLabel();
         subTitleDiff.setText("Difficoltà del simulatore");
         subTitleDiff.setFont(new Font("Tahoma",Font.PLAIN, 11));
+        controllo.add(subTitleDiff);
         //Slider difficoltà
         sliderDiff = new JSlider();
         sliderDiff.setMaximum(2);
         sliderDiff.setMinimum(0);
         sliderDiff.setValue(1);
+        controllo.add(sliderDiff);
         //Grandezza campo
         JLabel subTitleDim = new JLabel();
         subTitleDim.setText("Dimensioni del campo");
         subTitleDim.setFont(new Font("Tahoma",Font.PLAIN, 11));
+        controllo.add(subTitleDim);
         //Campo X
         JTextField coordXCampo = new JTextField();
-        coordXCampo.setText("X");
+        coordXCampo.setText(" X ");
+        controllo.add(coordXCampo);
         //Campo Y
         JTextField coordYCampo = new JTextField();
-        coordYCampo.setText("Y");
+        coordYCampo.setText(" Y ");
+        controllo.add(coordYCampo);
+        //Pulsante salva
+        save = new JButton("Salva impostazioni");
+        save.addActionListener(this);
+        controllo.add(save);
+        //Separatore
+        JSeparator separatore = new JSeparator(SwingConstants.HORIZONTAL);
+        controllo.add(separatore);
+        
 
-        GroupLayout layout = new GroupLayout(controllo);
-        controllo.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-            .addComponent(title)                       
-            .addComponent(subTitleDiff)
-            .addComponent(sliderDiff)));
-
-        layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(title)
-            .addComponent(subTitleDiff)
-            .addComponent(sliderDiff)));
-
+  
         pannelloCtrl.add(controllo);
 
         
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      
 
