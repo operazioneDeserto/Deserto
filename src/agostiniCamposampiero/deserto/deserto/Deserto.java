@@ -22,6 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,6 +50,11 @@ public class Deserto extends JFrame implements ActionListener{
     private int bullets;
     private JSlider sliderDiff;
     private JButton save;
+    private JComboBox tipo;
+    private JButton addCarro;
+    private JButton start;
+    private JButton stop;
+    private JButton exit;
 
 
 
@@ -129,44 +135,146 @@ public class Deserto extends JFrame implements ActionListener{
         JLabel title = new JLabel();
         title.setText("Pannello di controllo");
         title.setFont(new Font("Tahoma",Font.PLAIN, 18));
-        controllo.add(title);
         //Difficoltà
         JLabel subTitleDiff = new JLabel();
         subTitleDiff.setText("Difficoltà del simulatore");
         subTitleDiff.setFont(new Font("Tahoma",Font.PLAIN, 11));
-        controllo.add(subTitleDiff);
         //Slider difficoltà
         sliderDiff = new JSlider();
         sliderDiff.setMaximum(2);
         sliderDiff.setMinimum(0);
         sliderDiff.setValue(1);
-        controllo.add(sliderDiff);
         //Grandezza campo
         JLabel subTitleDim = new JLabel();
         subTitleDim.setText("Dimensioni del campo");
         subTitleDim.setFont(new Font("Tahoma",Font.PLAIN, 11));
-        controllo.add(subTitleDim);
         //Campo X
         JTextField coordXCampo = new JTextField();
-        coordXCampo.setText(" X ");
-        controllo.add(coordXCampo);
+        coordXCampo.setText("   X   ");
         //Campo Y
         JTextField coordYCampo = new JTextField();
-        coordYCampo.setText(" Y ");
-        controllo.add(coordYCampo);
+        coordYCampo.setText("   Y   ");
         //Pulsante salva
         save = new JButton("Salva impostazioni");
         save.addActionListener(this);
-        controllo.add(save);
         //Separatore
-        JSeparator separatore = new JSeparator(SwingConstants.HORIZONTAL);
-        controllo.add(separatore);
-        
+        JSeparator separatore = new JSeparator(JSeparator.HORIZONTAL);
+        //Aggiunta carro
+        JLabel subTitleTank = new JLabel();
+        subTitleTank.setText("Inserisci un nuovo carro");
+        subTitleTank.setFont(new Font("Tahoma",Font.BOLD, 11));
+        //Dimensione carro
+        JTextField dimCarro = new JTextField();
+        dimCarro.setText("Dimensione");       
+        //Tipo carro
+        String[] opzioniCombo = {"Carrolineare", "CarroQuadrato", "CarroTalpa"};
+        tipo = new JComboBox(opzioniCombo);
+        tipo.setSelectedIndex(0);
+        //Coordinate carro
+        JTextField coordCarroX = new JTextField();
+        coordCarroX.setText("Coord X");
+        JTextField coordCarroY = new JTextField();
+        coordCarroY.setText("Coord Y");
+        //Bottone aggiunta carro
+        addCarro = new JButton("Aggiungi");
+        addCarro.addActionListener(this);
+        //Tre bottoni 
+        start = new JButton("Start");
+        start.addActionListener(this);        
+        stop = new JButton("Stop");
+        stop.addActionListener(this);
+        exit = new JButton("Exit");
+        exit.addActionListener(this); 
 
-  
+        GroupLayout layout = new GroupLayout(controllo);
+        controllo.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(separatore, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(sliderDiff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(107, 107, 107)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(title)
+                                    .addComponent(subTitleDiff)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(109, 109, 109)
+                                .addComponent(subTitleDim))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addComponent(coordXCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(coordYCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(save))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(subTitleTank))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(dimCarro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(coordCarroX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(coordCarroY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(start)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(stop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exit)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(title)
+                .addGap(27, 27, 27)
+                .addComponent(subTitleDiff)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sliderDiff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(subTitleDim)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coordXCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coordYCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(save)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(separatore, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subTitleTank)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dimCarro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coordCarroX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coordCarroY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(start)
+                    .addComponent(stop)
+                    .addComponent(exit))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
         pannelloCtrl.add(controllo);
-
-        
 
     }
 
