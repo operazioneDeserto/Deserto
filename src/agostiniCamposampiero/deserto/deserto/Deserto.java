@@ -2,6 +2,7 @@ package agostiniCamposampiero.deserto.deserto;
 
 import agostiniCamposampiero.deserto.carri.*;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -18,6 +19,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,22 +29,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 
 /**
  *
  * @author giaco
  */
-public class Deserto extends JFrame implements ActionListener {
+public class Deserto extends JFrame {
     
     private final JFrame pannelloCtrl;
     private final JFrame messaggi;
     private final JTextArea areaMex;
     private ArrayList<CarroCantiere> armata;
-    private ArrayList<JButton> opzioni;
     private static int difficulty;
     private final int TIME = 5000;
     private int bullets;
+    private JSlider sliderDiff;
 
 
     /**
@@ -53,8 +57,6 @@ public class Deserto extends JFrame implements ActionListener {
         messaggi = new JFrame();
         pannelloCtrl = new JFrame();
         frameDeserto();
-        frameMessaggi();
-        frameControllo();
     }//Costruttore
 
     /**
@@ -99,6 +101,8 @@ public class Deserto extends JFrame implements ActionListener {
         backgroundDeserto.setSize(widthGriglia, heightGriglia); 
         messaggi.setBounds(20,heightGriglia+40,(int)(screenSize.width-40), screenSize.height/10*3);
         pannelloCtrl.setBounds(40+widthGriglia,20,(int)(screenSize.width/10*2)+10, heightGriglia);
+        frameMessaggi();
+        frameControllo((int)(screenSize.width/10*2)+10,heightGriglia);
     }
     
     private void frameMessaggi(){
@@ -112,25 +116,59 @@ public class Deserto extends JFrame implements ActionListener {
         messaggi.setVisible(true);      
     }
     
-    private void frameControllo(){
+    private void frameControllo(int x, int y){
         pannelloCtrl.setVisible(true);
-        pannelloCtrl.setResizable(false);
         pannelloCtrl.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         pannelloCtrl.setTitle("Pannello");
+        //Titolo
         JPanel controllo = new JPanel();
-        controllo.setLayout(new GridLayout(8,1));
-        opzioni = new ArrayList<>();
-        for(int i=0; i<8; i++) opzioni.add(new JButton());
-        for(JButton tmp : opzioni){
-            tmp.addActionListener(this);
-            controllo.add(tmp);
-        }
+        JLabel title = new JLabel();
+        title.setText("Pannello di controllo");
+        title.setFont(new Font("Tahoma",Font.PLAIN, 18));
+        //Difficoltà
+        JLabel subTitleDiff = new JLabel();
+        subTitleDiff.setText("Difficoltà del simulatore");
+        subTitleDiff.setFont(new Font("Tahoma",Font.PLAIN, 11));
+        //Slider difficoltà
+        sliderDiff = new JSlider();
+        sliderDiff.setMaximum(2);
+        sliderDiff.setMinimum(0);
+        sliderDiff.setValue(1);
+        //Grandezza campo
+        JLabel subTitleDim = new JLabel();
+        subTitleDim.setText("Dimensioni del campo");
+        subTitleDim.setFont(new Font("Tahoma",Font.PLAIN, 11));
+        //Campo X
+        JTextField coordXCampo = new JTextField();
+        coordXCampo.setText("X");
+        //Campo Y
+        JTextField coordYCampo = new JTextField();
+        coordYCampo.setText("Y");
+
+        GroupLayout layout = new GroupLayout(controllo);
+        controllo.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(title)                       
+            .addComponent(subTitleDiff)
+            .addComponent(sliderDiff)));
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(title)
+            .addComponent(subTitleDiff)
+            .addComponent(sliderDiff)));
+
         pannelloCtrl.add(controllo);
-    }
+
         
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        areaMex.append("\n"+"cazzo");
+
     }
+     
 
 }//Deserto
