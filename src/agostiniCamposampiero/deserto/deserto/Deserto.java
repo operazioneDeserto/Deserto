@@ -278,8 +278,7 @@ public class Deserto extends JFrame implements ActionListener{
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         pannelloCtrl.add(controllo);
-
-    }
+    }//frameControllo
 
     @Override
     public void actionPerformed(ActionEvent e) {
