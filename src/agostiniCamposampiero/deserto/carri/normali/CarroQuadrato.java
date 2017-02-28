@@ -51,7 +51,7 @@ public class CarroQuadrato extends CarroCantiere {
      *
      * @param pos posizione del colpo sparato
      * @return <0 se il carro è stato distrutto, 0 se il carro è stato colpito,
-     * >0 se il carro non + stato colpito
+     * >0 se il carro non e' stato colpito
      */
     @Override
     public int fuoco(Posizione pos) {

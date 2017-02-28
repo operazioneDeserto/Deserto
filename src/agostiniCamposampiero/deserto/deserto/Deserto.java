@@ -1,6 +1,11 @@
 package agostiniCamposampiero.deserto.deserto;
 
 import agostiniCamposampiero.deserto.carri.*;
+import agostiniCamposampiero.deserto.carri.normali.CarroLineare;
+import agostiniCamposampiero.deserto.carri.normali.CarroQuadrato;
+import agostiniCamposampiero.deserto.carri.speciali.CarroTalpa;
+import agostiniCamposampiero.deserto.pos.Posizione;
+import agostiniCamposampiero.deserto.strategy.MediumStrategy;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -45,7 +50,6 @@ public class Deserto extends JFrame implements ActionListener{
     private final JFrame messaggi;
     private final JTextArea areaMex;
     private ArrayList<CarroCantiere> armata;
-    private static int difficulty;
     private final int TIME = 5000;
     private int bullets;
     private JSlider sliderDiff;
@@ -66,7 +70,27 @@ public class Deserto extends JFrame implements ActionListener{
         areaMex = new JTextArea();
         messaggi = new JFrame();
         pannelloCtrl = new JFrame();
+        
+        //carri
+        armata = new ArrayList <CarroCantiere>();
+        Posizione pos = new Posizione (2, 2);
+        CarroQuadrato c1 = new CarroQuadrato (pos, 9);
+        pos = new Posizione (5, 10);
+        CarroLineare c2 = new CarroLineare (pos, 5);
+        pos = new Posizione (8, 16);
+        CarroTalpa c3 = new CarroTalpa (pos, 4, true);
+        pos = new Posizione (13, 20);
+        CarroTalpa c4 = new CarroTalpa (pos, 6, false);
+        armata.add(c1);
+        armata.add(c2);
+        armata.add(c3);
+        armata.add(c4);
+        
+        //colpi del cannone
+        bullets=150;
+        
         frameDeserto();
+        blindCannon();
     }//Costruttore
 
     /**
@@ -285,5 +309,43 @@ public class Deserto extends JFrame implements ActionListener{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      
+    
+    
+    public void blindCannon (){
+        int height = 15, width = 30;
+        String s="";
+        int c=0;
+        MediumStrategy strat = new MediumStrategy (height, width);       
+        while (bullets>0 && !armata.isEmpty()){
+            Posizione hit=strat.nextHit();
+            s = "sabbia";
+            while(s.equals("sabbia") && c<= armata.size()-1){
+                int result=armata.get(c).fuoco(hit);
+                if (result<0) s = "distrutto";
+                else if (result == 0) s="colpito";
+                if(s.equals("colpito")){
+                    playSound(true);
+                    if (armata.get(c).distrutto()) armata.remove(c);
+                }
+                else playSound(false);
+                c++;
+            }
+            
+            System.out.println("fuoco in " + hit.toString() + ": " + s);
+            c = 0;
+            bullets--;
+            try {
+                Thread.sleep(TIME);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+        if (bullets > 0) {
+            System.out.print("il cannone cieco ti ha distrutto!");
+        } else {
+            System.out.print("sei sfuggito alla furia del cannone cieco!");
+        }
+    }
+
 
 }//Deserto
