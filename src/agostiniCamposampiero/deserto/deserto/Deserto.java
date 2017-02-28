@@ -5,7 +5,7 @@ import agostiniCamposampiero.deserto.carri.normali.CarroLineare;
 import agostiniCamposampiero.deserto.carri.normali.CarroQuadrato;
 import agostiniCamposampiero.deserto.carri.speciali.CarroTalpa;
 import agostiniCamposampiero.deserto.pos.Posizione;
-import agostiniCamposampiero.deserto.strategy.MediumStrategy;
+import agostiniCamposampiero.deserto.strategy.*;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -24,7 +24,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -37,7 +36,6 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -151,7 +149,6 @@ public class Deserto extends JFrame implements ActionListener{
     }
     
     private void frameControllo(int x, int y){
-        pannelloCtrl.setVisible(true);
         pannelloCtrl.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         pannelloCtrl.setTitle("Pannello");
         //Titolo
@@ -302,6 +299,8 @@ public class Deserto extends JFrame implements ActionListener{
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         pannelloCtrl.add(controllo);
+        pannelloCtrl.setVisible(true);
+        
     }//frameControllo
 
     @Override
@@ -312,10 +311,10 @@ public class Deserto extends JFrame implements ActionListener{
     
     
     public void blindCannon (){
-        int height = 15, width = 30;
+        int height = 15, width = 15;
         String s="";
         int c=0;
-        MediumStrategy strat = new MediumStrategy (height, width);       
+        DifficultStrategy strat = new DifficultStrategy (height, width);       
         while (bullets>0 && !armata.isEmpty()){
             Posizione hit=strat.nextHit();
             s = "sabbia";
