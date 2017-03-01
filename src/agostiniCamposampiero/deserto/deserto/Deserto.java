@@ -234,6 +234,7 @@ public class Deserto extends JFrame implements ActionListener{
         cordCarroTalpaY.setText("CoordY");
         //Pulsante CoverUncover
         covUncov = new JButton("Copri/Scopri");
+        covUncov.setEnabled(false);
         covUncov.addActionListener(this);
         //Tre bottoni 
         start = new JButton("Start");
@@ -436,10 +437,18 @@ public class Deserto extends JFrame implements ActionListener{
         } else if(e.getSource()==covUncov){
             try{
                 int x=Integer.parseInt(cordCarroTalpaX.getText()), y=Integer.parseInt(cordCarroTalpaY.getText());
-                
+                Posizione pos = new Posizione(x,y);
+                CarroCantiere carro=null;
+                for(CarroCantiere tmp:armata) if(tmp.present(pos)) carro=tmp;
+                if(carro!=null && carro.getClass()==CarroTalpa.class){
+                    CarroTalpa tmp = (CarroTalpa) carro;
+                    tmp.changeHidden();
+                }
+                else sendMex("Non esiste un CarroTalpa in queste coordinate!");
             } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(pannelloCtrl, "Formato delle coordinate del campo sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
             }
+            repaint();
         } else if(e.getSource()==start){
             //Pulsante per far partire il cannone
             tipo.setEnabled(false);
@@ -447,6 +456,7 @@ public class Deserto extends JFrame implements ActionListener{
             coordCarroY.setEditable(false);
             cordCarroTalpaX.setEditable(true);
             cordCarroTalpaY.setEditable(true);
+            covUncov.setEnabled(true);
             dimCarro.setEditable(false);
             addCarro.setEnabled(false);
             start.setEnabled(false);

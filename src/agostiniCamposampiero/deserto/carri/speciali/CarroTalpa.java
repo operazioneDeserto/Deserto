@@ -24,18 +24,11 @@ public class CarroTalpa extends CarroLineare{
     }//Costruttore
     
     /**
-     * Scopre il carro
+     * Scopre/Copre il carro
      */
-    public void scoperto(){
-        hidden = false;    
-    }//scoperto
-    
-    /**
-     * Nasconde il carro
-     */
-    public void nascosto(){
-        hidden = true;    
-    }//nascosto
+    public void changeHidden(){
+        hidden=!hidden;
+    }//changeHidden
     
     /**
      * Attacco dei guastatori
