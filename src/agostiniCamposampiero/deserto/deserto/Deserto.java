@@ -7,6 +7,9 @@ import agostiniCamposampiero.deserto.pos.Posizione;
 import agostiniCamposampiero.deserto.strategy.*;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,8 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -47,10 +48,11 @@ public class Deserto extends JFrame implements ActionListener{
     private final ArrayList<CarroCantiere> armata;
     private final int TIME = 5000;
     private int bullets;
-    private int heightDesert;
-    private int widthDesert;
     private Strategy strategy;
     private boolean[][] state;
+    private final static int HEIGHT = 18;
+    private final static int WIDTH = 36;
+    
     //Grafica
     private final JFrame pannelloCtrl;
     private final JFrame messaggi;
@@ -58,8 +60,6 @@ public class Deserto extends JFrame implements ActionListener{
     private JSlider sliderDiff;
     private JButton saveOptions;
     private JComboBox tipo;
-    private JTextField coordXCampo;
-    private JTextField coordYCampo;
     private JTextField dimCarro;
     private JTextField coordCarroX;
     private JTextField coordCarroY;
@@ -131,16 +131,10 @@ public class Deserto extends JFrame implements ActionListener{
         JOptionPane.showMessageDialog(this, "Benvenuto nel simulatore di battaglia Deserto.","Deserto",JOptionPane.INFORMATION_MESSAGE);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Deserto");
-        getContentPane().setLayout(null);
-        JLabel backgroundDeserto = new JLabel();
-        backgroundDeserto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agostiniCamposampiero/deserto/resources/sand.png"))); // NOI18N
-        getContentPane().add(backgroundDeserto);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int heightGriglia=screenSize.height/10*6, widthGriglia=(int)(screenSize.width/10*7.5);
         setBounds(20,20,widthGriglia, heightGriglia);
         setVisible(true);
-        setResizable(false);
-        backgroundDeserto.setSize(widthGriglia, heightGriglia); 
         messaggi.setBounds(20,heightGriglia+40,(int)(screenSize.width-40), screenSize.height/10*3);
         pannelloCtrl.setBounds(40+widthGriglia,20,(int)(screenSize.width/10*2)+10, heightGriglia);
         sendMex("Modulo Deserto avviato con successo...");
@@ -198,16 +192,6 @@ public class Deserto extends JFrame implements ActionListener{
         JLabel labelDifficulty3 = new JLabel();
         labelDifficulty3.setText("Difficile");
         labelDifficulty3.setFont(new Font("Tahoma",Font.ITALIC, 10));
-        //Grandezza campo
-        JLabel subTitleDim = new JLabel();
-        subTitleDim.setText("Dimensioni del campo");
-        subTitleDim.setFont(new Font("Tahoma",Font.PLAIN, 11));
-        //Campo X
-        coordXCampo = new JTextField();
-        coordXCampo.setText("CoordX");
-        //Campo Y
-        coordYCampo = new JTextField();
-        coordYCampo.setText("CoordY");
         //Pulsante salva
         saveOptions = new JButton("Salva impostazioni");
         saveOptions.addActionListener(this);
@@ -272,14 +256,6 @@ public class Deserto extends JFrame implements ActionListener{
                                     .addComponent(title)
                                     .addComponent(subTitleDiff)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(subTitleDim))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(coordXCampo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(coordYCampo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
                                 .addComponent(saveOptions))
                             .addGroup(layout.createSequentialGroup()
@@ -322,13 +298,7 @@ public class Deserto extends JFrame implements ActionListener{
                     .addComponent(labelDifficulty1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelDifficulty2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelDifficulty3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(subTitleDim)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(coordXCampo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(coordYCampo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(6,6,6)
                 .addComponent(saveOptions)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(separatore, javax.swing.GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
@@ -363,32 +333,24 @@ public class Deserto extends JFrame implements ActionListener{
         if(e.getSource()==saveOptions){
             //Pulsante salvataggio coordinate e difficoltà
             try{
-                heightDesert = Integer.parseInt(coordXCampo.getText());
-                widthDesert = Integer.parseInt(coordYCampo.getText());
-                if(heightDesert>35 || heightDesert<=0 || widthDesert>50 || widthDesert<=0){
-                    sendMex("La dimensione del campo deve essere compresa tra 1 e 35 per le X e tra 1 e 50 per le Y!");
-                    throw new NumberFormatException();
-                }
                 switch(sliderDiff.getValue()){
                     case 0:
-                        strategy = new EasyStrategy(heightDesert, widthDesert);
+                        strategy = new EasyStrategy(HEIGHT, WIDTH);
                         sendMex("Difficoltà impostata: Facile.");
                         break;
                     case 1:
-                        strategy = new MediumStrategy(heightDesert, widthDesert);
+                        strategy = new MediumStrategy(HEIGHT, WIDTH);
                         sendMex("Difficoltà impostata: Normale.");
                         break;
                     case 2:
-                        strategy = new EasyStrategy(heightDesert, widthDesert);
+                        strategy = new DifficultStrategy(HEIGHT, WIDTH);
                         sendMex("Difficoltà impostata: Difficile.");
                         break;
                     default:
                         sendMex("Non è stato possibile impostare una difficoltà!");
                         break;              
                 }
-                sendMex("Dimensioni del campo di battaglia: X="+widthDesert+" Y="+heightDesert);
-                coordXCampo.setEditable(false);
-                coordYCampo.setEditable(false);
+                sendMex("Dimensioni del campo di battaglia: X="+WIDTH+" Y="+HEIGHT);
                 saveOptions.setEnabled(false);
                 tipo.setEnabled(true);
                 coordCarroX.setEditable(true);
@@ -397,6 +359,7 @@ public class Deserto extends JFrame implements ActionListener{
                 addCarro.setEnabled(true);
                 start.setEnabled(true);
                 stop.setEnabled(true);
+                repaint();
             } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(pannelloCtrl, "Formato delle coordinate del campo sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
             }
@@ -486,5 +449,21 @@ public class Deserto extends JFrame implements ActionListener{
     private void sendMex(String mex){
         areaMex.append("  "+mex+"\n");
     }//sendMex
+    
+    @Override
+    public void paint(Graphics g){
+        Graphics2D g2 = (Graphics2D) g;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x=(int)(screenSize.width/10*7.5-70)/WIDTH, y=(screenSize.height/10*6-70)/HEIGHT;
+        for(int i=0; i<WIDTH; i++){
+            for(int j=0;j<HEIGHT; j++){
+                Rectangle rect = new Rectangle(50+(i*x),50+(j*y),x,y);
+                g2.draw(rect);
+            }
+        }
+        for(int i=0; i<WIDTH; i++){
+            g2.drawString("0"+1,);
+        }
+    }
 
 }//Deserto
