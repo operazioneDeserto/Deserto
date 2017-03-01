@@ -12,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -73,7 +76,10 @@ public class Deserto extends JFrame implements ActionListener{
         areaMex = new JTextArea();
         messaggi = new JFrame();
         pannelloCtrl = new JFrame();
-        
+        sendMex("**********************************************\n"
+               +"         Simulatore di battaglia Deserto         \n"
+               +"  **********************************************");
+        sendMex("Avviamento simulatore...");
         //carri
         armata = new ArrayList <>();
         Posizione pos = new Posizione (2, 2);
@@ -137,8 +143,13 @@ public class Deserto extends JFrame implements ActionListener{
         backgroundDeserto.setSize(widthGriglia, heightGriglia); 
         messaggi.setBounds(20,heightGriglia+40,(int)(screenSize.width-40), screenSize.height/10*3);
         pannelloCtrl.setBounds(40+widthGriglia,20,(int)(screenSize.width/10*2)+10, heightGriglia);
+        sendMex("Modulo Deserto avviato con successo...");
         frameMessaggi();
+        sendMex("Modulo Messaggi avviato con successo...");
         frameControllo((int)(screenSize.width/10*2)+10,heightGriglia);
+        sendMex("Modulo Controllo avviato con successo...");
+        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        sendMex("Simulatore avviato con successo alle ore: "+sdf.format(new Date())+".");
     }//frameDeserto
     
     /**
@@ -354,22 +365,28 @@ public class Deserto extends JFrame implements ActionListener{
             try{
                 heightDesert = Integer.parseInt(coordXCampo.getText());
                 widthDesert = Integer.parseInt(coordYCampo.getText());
+                if(heightDesert>35 || heightDesert<=0 || widthDesert>50 || widthDesert<=0){
+                    sendMex("La dimensione del campo deve essere compresa tra 1 e 35 per le X e tra 1 e 50 per le Y!");
+                    throw new NumberFormatException();
+                }
                 switch(sliderDiff.getValue()){
                     case 0:
                         strategy = new EasyStrategy(heightDesert, widthDesert);
+                        sendMex("Difficoltà impostata: Facile.");
                         break;
                     case 1:
                         strategy = new MediumStrategy(heightDesert, widthDesert);
+                        sendMex("Difficoltà impostata: Normale.");
                         break;
                     case 2:
                         strategy = new EasyStrategy(heightDesert, widthDesert);
+                        sendMex("Difficoltà impostata: Difficile.");
                         break;
                     default:
                         sendMex("Non è stato possibile impostare una difficoltà!");
                         break;              
                 }
-                state = new boolean[heightDesert+1][widthDesert+1];
-                for(int i=0;i<=heightDesert;i++) for(int j=0; j<=widthDesert; j++) state[i][j]=false;
+                sendMex("Dimensioni del campo di battaglia: X="+widthDesert+" Y="+heightDesert);
                 coordXCampo.setEditable(false);
                 coordYCampo.setEditable(false);
                 saveOptions.setEnabled(false);
