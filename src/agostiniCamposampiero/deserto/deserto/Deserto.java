@@ -410,21 +410,30 @@ public class Deserto extends JFrame implements ActionListener{
                             armata.add(new CarroLineare(new Posizione(x,y),dim));
                             sendMex("Carro creato!");
                         } 
-                        else sendMex("Parametri del carro non accettabili");
+                        else{
+                            JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
+                            sendMex("Parametri del carro non accettabili");
+                        }
                         break;
                     case "CarroQuadrato":
                         if (tankPropertyControl(dim, x, y, tipoCarro)){
                             armata.add(new CarroQuadrato(new Posizione(x,y),dim));
                             sendMex("Carro creato!");
                         } 
-                        else sendMex("Parametri del carro non accettabili");
+                        else{
+                            JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
+                            sendMex("Parametri del carro non accettabili");
+                        }
                         break;
                     case "CarroTalpa":
                         if (tankPropertyControl(dim, x, y, tipoCarro)){
                             armata.add(new CarroTalpa(new Posizione(x,y),dim,true));
                             sendMex("Carro creato!");
                         } 
-                        else sendMex("Parametri del carro non accettabili");
+                        else{
+                            JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
+                            sendMex("Parametri del carro non accettabili");
+                        }
                         break;
                     default:
                         sendMex("Non è stato possibile creare il carro!");
@@ -547,11 +556,25 @@ public class Deserto extends JFrame implements ActionListener{
         if (tipoCarro.equals("CarroQuadrato")){
             if (dim%Math.sqrt(size)!=0) return false;
             if (((int)Math.sqrt(size) + x-1)>WIDTH || ((int)Math.sqrt(size) + y-1)>HEIGHT || dim <=0) return false;
-        }else{
-            if ((dim + x-1)>WIDTH || dim<=0) return false;
+            Posizione pos = new Posizione(x,y);
+            int lato=(int)Math.sqrt(dim);
+            for (int i = 0; i <lato; i++) {
+                for (int j = 0; j <lato; j++) {
+                    for(CarroCantiere tmp:armata) if(tmp.present(pos)) return false;
+                    pos = new Posizione(++x,y);
+                }
+                pos= new Posizione(x-=lato,++y);
+            }
+            return true;
+        }
+        else if ((dim + x-1)>WIDTH || dim<=0) return false;
+        Posizione pos = new Posizione(x,y);
+        for(int i=0; i<dim;i++){
+            for(CarroCantiere tmp:armata) if(tmp.present(pos)) return false;
+            pos=new Posizione(++x,y);
         }
         return true;
-    }
+    }//tankPropertyControl
     
     /**
      * Metodo per scrivere messaggi all'interno dell'apposito spazio
