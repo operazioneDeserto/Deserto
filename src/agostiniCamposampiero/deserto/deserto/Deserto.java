@@ -461,8 +461,8 @@ public class Deserto extends JFrame implements ActionListener{
                 g2.draw(rect);
             }
         }
-        for(int i=0; i<WIDTH; i++){
-            g2.drawString("0"+1,);
+        for(int i=1; i<=WIDTH; i++){
+            g2.drawString(""+i,50,50);
         }
     }
 
