@@ -77,6 +77,7 @@ public class Deserto extends JFrame implements ActionListener{
     private JButton stop;
     private JButton exit;
     private JButton covUncov;
+    private ArrayList<Posizione> hitted;
 
     /**
      * Costruttore non parametrico
@@ -86,10 +87,12 @@ public class Deserto extends JFrame implements ActionListener{
         areaMex = new JTextArea();
         messaggi = new JFrame();
         pannelloCtrl = new JFrame();
+        sabotaged = false;
+        hitted = new ArrayList<>();
         sendMex("**********************************************\n"
                +"         Simulatore di battaglia Deserto         \n"
                +"  **********************************************");
-        sendMex("Avvio simulatore...");
+        sendMex("Avvio simulatore...\n");
         //carri
         armata = new ArrayList <>();       
         //colpi del cannone
@@ -139,9 +142,9 @@ public class Deserto extends JFrame implements ActionListener{
         frameMessaggi();
         sendMex("Modulo Messaggi avviato con successo.");
         frameControllo((int)(screenSize.width/10*2)+10,heightGriglia);
-        sendMex("Modulo Controllo avviato con successo.");
+        sendMex("Modulo Controllo avviato con successo.\n");
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        sendMex("Simulatore avviato con successo alle ore: "+sdf.format(new Date())+".");
+        sendMex("Simulatore avviato con successo alle ore: "+sdf.format(new Date())+".\n");
     }//frameDeserto
     
     /**
@@ -150,8 +153,10 @@ public class Deserto extends JFrame implements ActionListener{
     private void frameMessaggi(){
         messaggi.setTitle("Messaggi dal simulatore");
         areaMex.setEditable(false);
-        areaMex.setCaretPosition(areaMex.getDocument().getLength());
         messaggi.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        DefaultCaret caret = (DefaultCaret)areaMex.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
+        areaMex.setCaretPosition(areaMex.getDocument().getLength());
         JScrollPane scroll = new JScrollPane (areaMex);
         messaggi.add(scroll);
         messaggi.setVisible(true);      
@@ -370,22 +375,21 @@ public class Deserto extends JFrame implements ActionListener{
             try{
                 switch(sliderDiff.getValue()){
                     case 0:
-                        strategy = new EasyStrategy(HEIGHT, WIDTH);
+                        strategy = new EasyStrategy(WIDTH, HEIGHT);
                         sendMex("Difficoltà impostata: Facile.");
                         break;
                     case 1:
-                        strategy = new MediumStrategy(HEIGHT, WIDTH);
+                        strategy = new MediumStrategy(WIDTH, HEIGHT);
                         sendMex("Difficoltà impostata: Normale.");
                         break;
                     case 2:
-                        strategy = new DifficultStrategy(HEIGHT, WIDTH);
+                        strategy = new DifficultStrategy(WIDTH, HEIGHT);
                         sendMex("Difficoltà impostata: Difficile.");
                         break;
                     default:
                         sendMex("Non è stato possibile impostare una difficoltà!");
                         break;              
                 }
-                sendMex("Dimensioni del campo di battaglia: X="+WIDTH+" Y="+HEIGHT);
                 saveOptions.setEnabled(false);
                 tipo.setEnabled(true);
                 coordCarroX.setEditable(true);
@@ -499,29 +503,32 @@ public class Deserto extends JFrame implements ActionListener{
      */
     public void blindCannon (){
         if (bullets>0 && !armata.isEmpty()){
-            
-            timer = new Timer(TIME, this);
-            timer.start();
+            if(sabotaged){
+                timer = new Timer(TIME, this);
+                timer.start();
+                sabotaged = false;
+            }
             Posizione hit=strategy.nextHit();
+            hitted.add(hit);
             int result = 1;
             for(CarroCantiere tmp:armata){
                 result = tmp.fuoco(hit);
                 strategy.hitFeedback(result);
                 if(result<0){
                     playSound(true);
-                    sendMex("Fuoco in: "+hit.toString()+" . Il carro è stato distrutto!");
+                    sendMex("Fuoco in: "+hit.toString()+". Il carro è stato distrutto!");
                     armata.remove(tmp);
                     break;
                 }
                 else if (result==0){
                     playSound(true);
-                    sendMex("Fuoco in: "+hit.toString()+" . Il carro è stato colpito!");
+                    sendMex("Fuoco in: "+hit.toString()+". Il carro è stato colpito!");
                     break;
                 } 
             }
             if(result>0){
                 playSound(false);
-                sendMex("Fuoco in: "+hit.toString()+" . Il colpo non è andato a segno!");
+                sendMex("Fuoco in: "+hit.toString()+". Il colpo non è andato a segno!");
             }
             double attack=0;
             for (CarroCantiere tmp:armata) attack+=tmp.sapperAttack();
@@ -529,6 +536,7 @@ public class Deserto extends JFrame implements ActionListener{
                 timer = new Timer(60000, this);
                 timer.start();
                 bullets-=12;
+                sabotaged = true;
                 sendMex("I guastatori hanno sabotato con successo il cannone!");
             }
             bullets--;
@@ -539,6 +547,7 @@ public class Deserto extends JFrame implements ActionListener{
             timer.stop();
             stop.setEnabled(false);
         }
+        repaint();
     }//blindCannon
     
     /**
@@ -619,7 +628,14 @@ public class Deserto extends JFrame implements ActionListener{
                     Rectangle rect = new Rectangle(40+(i*x),25+(j*y),x,y);
                     g2.draw(rect);
                 }
-            }          
+            }        
+            for(Posizione tmp:hitted){
+                int x2=tmp.getX(), y2=tmp.getY();
+                Rectangle rect = new Rectangle(40+((x2-1)*x),25+((y2-1)*y),x,y);
+                g2.setColor(new Color(128,128,128,70));
+                g2.draw(rect);
+                g2.fill(rect);
+            }
         }//paintComponent
         
     }//Griglia
