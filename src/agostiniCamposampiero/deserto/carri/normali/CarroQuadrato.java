@@ -2,6 +2,9 @@ package agostiniCamposampiero.deserto.carri.normali;
 
 import agostiniCamposampiero.deserto.carri.CarroCantiere;
 import agostiniCamposampiero.deserto.pos.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +13,7 @@ import java.util.ArrayList;
  */
 public class CarroQuadrato extends CarroCantiere {
 
-    private ArrayList<Pezzo> tank;
+    private final ArrayList<Pezzo> tank;
 
     /**
      * Costruttore parametrico
@@ -96,5 +99,28 @@ public class CarroQuadrato extends CarroCantiere {
         for (Pezzo tmp : tank) ris += tmp.toString();
         return "CarroQuadrato attualmente composto da " + tank.size() + " pezzi." + ris + super.toString();
     }//toString
+
+    /**
+     * Disegna il carro nella griglia
+     * @param g2 grafica
+     * @param dimX  dimensione quadretti X
+     * @param dimY  dimensione quadretti Y
+     */
+    @Override
+    public void draw(Graphics2D g2, int dimX, int dimY) {
+        int x=getPos().getX(), y=getPos().getY(), lato=(int)Math.sqrt(getNum());
+        int righe = lato -(getNum()-tank.size())/lato;
+        for (int i = 1; i <= righe; i++) {
+            int a = tank.size()-i*lato>lato?lato:tank.size()-i*lato;
+            for (int j = 1; j <= a; j++) {
+                g2.setColor(Color.BLACK);
+                g2.drawString(""+tank.get(i).getNum(),x*dimX+3,y*dimY);
+                g2.setColor(Color.GREEN);
+                Rectangle rect = new Rectangle(40+(i*dimX),25+dimY*y,dimX,dimY);
+                g2.draw(rect);
+                g2.fill(rect);
+            }
+        }
+    }
 
 }//CarroQuadrato

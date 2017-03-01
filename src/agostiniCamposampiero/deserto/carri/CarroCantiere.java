@@ -1,6 +1,7 @@
 package agostiniCamposampiero.deserto.carri;
 
 import agostiniCamposampiero.deserto.pos.*;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -61,6 +62,14 @@ public abstract class CarroCantiere {
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
     public abstract int sapperAttack();
+    
+    /**
+     * Disegna il carro nella griglia
+     * @param g2 grafica
+     * @param dimX  dimensione quadretti X
+     * @param dimY  dimensione quadretti Y
+     */
+    public abstract void draw(Graphics2D g2, int dimX, int dimY);
     
     /**
      * Restituisce una stringa significativa sull'oggetto

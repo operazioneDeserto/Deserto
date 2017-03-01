@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -82,18 +83,6 @@ public class Deserto extends JFrame implements ActionListener{
         sendMex("Avviamento simulatore...");
         //carri
         armata = new ArrayList <>();
-        Posizione pos = new Posizione (2, 2);
-        CarroQuadrato c1 = new CarroQuadrato (pos, 9);
-        pos = new Posizione (5, 10);
-        CarroLineare c2 = new CarroLineare (pos, 5);
-        pos = new Posizione (8, 16);
-        CarroTalpa c3 = new CarroTalpa (pos, 4, true);
-        pos = new Posizione (13, 20);
-        CarroTalpa c4 = new CarroTalpa (pos, 6, false);
-        armata.add(c1);
-        armata.add(c2);
-        armata.add(c3);
-        armata.add(c4);
         
         //colpi del cannone
         bullets=150;
@@ -135,13 +124,14 @@ public class Deserto extends JFrame implements ActionListener{
         int heightGriglia=screenSize.height/10*6, widthGriglia=(int)(screenSize.width/10*7.5);
         setBounds(20,20,widthGriglia, heightGriglia);
         setVisible(true);
+        add(new Griglia());
         messaggi.setBounds(20,heightGriglia+40,(int)(screenSize.width-40), screenSize.height/10*3);
         pannelloCtrl.setBounds(40+widthGriglia,20,(int)(screenSize.width/10*2)+10, heightGriglia);
-        sendMex("Modulo Deserto avviato con successo...");
+        sendMex("Modulo Deserto avviato con successo.");
         frameMessaggi();
-        sendMex("Modulo Messaggi avviato con successo...");
+        sendMex("Modulo Messaggi avviato con successo.");
         frameControllo((int)(screenSize.width/10*2)+10,heightGriglia);
-        sendMex("Modulo Controllo avviato con successo...");
+        sendMex("Modulo Controllo avviato con successo.");
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         sendMex("Simulatore avviato con successo alle ore: "+sdf.format(new Date())+".");
     }//frameDeserto
@@ -398,6 +388,7 @@ public class Deserto extends JFrame implements ActionListener{
             }catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(pannelloCtrl, "Formato dei campi numerici sbagliato sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
             }
+            repaint();
         } else if(e.getSource()==start){
             //Pulsante per far partire il cannone
             tipo.setEnabled(false);
@@ -500,20 +491,40 @@ public class Deserto extends JFrame implements ActionListener{
         areaMex.append("  "+mex+"\n");
     }//sendMex
     
-    @Override
-    public void paint(Graphics g){
-        Graphics2D g2 = (Graphics2D) g;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x=(int)(screenSize.width/10*7.5-70)/WIDTH, y=(screenSize.height/10*6-70)/HEIGHT;
-        for(int i=0; i<WIDTH; i++){
-            for(int j=0;j<HEIGHT; j++){
-                Rectangle rect = new Rectangle(50+(i*x),50+(j*y),x,y);
-                g2.draw(rect);
+    
+    class Griglia extends JPanel {
+  
+        private final static int HEIGHT = 18;
+        private final static int WIDTH = 36;
+
+        /**
+         * Disegna la grafica della griglia
+         * @param g grafica
+         */
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int x=(int)(screenSize.width/10*7.5-70)/WIDTH, y=(screenSize.height/10*6-70)/HEIGHT;
+
+            for(int i=1; i<=WIDTH; i++){
+                if(i<10) g2.drawString("0"+i,18+i*x,20);
+                else g2.drawString(""+i,18+i*x,20);
             }
-        }
-        for(int i=1; i<=WIDTH; i++){
-            g2.drawString(""+i,50,50);
-        }
-    }
+            for(int i=1; i<=HEIGHT; i++){
+                if(i<10) g2.drawString("0"+i,20,20+i*y);
+                else g2.drawString(""+i,20,20+i*y);
+            }
+            for(CarroCantiere tmp:armata) tmp.draw(g2, x, y);
+            g2.setColor(Color.BLACK);
+            for(int i=0; i<WIDTH; i++){
+                for(int j=0;j<HEIGHT; j++){
+                    Rectangle rect = new Rectangle(40+(i*x),25+(j*y),x,y);
+                    g2.draw(rect);
+                }
+            }          
+        }//paintComponent
+        
+    }//Griglia
 
 }//Deserto

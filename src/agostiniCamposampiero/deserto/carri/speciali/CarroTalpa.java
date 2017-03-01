@@ -2,6 +2,9 @@ package agostiniCamposampiero.deserto.carri.speciali;
 
 import agostiniCamposampiero.deserto.carri.normali.CarroLineare;
 import agostiniCamposampiero.deserto.pos.Posizione;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 /**
  *
@@ -63,5 +66,16 @@ public class CarroTalpa extends CarroLineare{
     public String toString() {
         return "CarroTalpa nascosto: "+hidden+". "+ super.toString();
     }//toString
+    
+    /**
+     * Disegna il carro nella griglia
+     * @param g2 grafica
+     * @param dimX  dimensione quadretti X
+     * @param dimY  dimensione quadretti Y
+     */
+    @Override
+    public void draw(Graphics2D g2, int dimX, int dimY){
+        super.draw(g2, dimX, dimY, true, hidden);
+    }//draw    
     
 }//CarroTalpa

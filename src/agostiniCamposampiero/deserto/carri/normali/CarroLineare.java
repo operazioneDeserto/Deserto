@@ -2,6 +2,9 @@ package agostiniCamposampiero.deserto.carri.normali;
 
 import agostiniCamposampiero.deserto.carri.CarroCantiere;
 import agostiniCamposampiero.deserto.pos.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +13,7 @@ import java.util.ArrayList;
  */
 public class CarroLineare extends CarroCantiere{
     
-    private ArrayList<Pezzo> tank;
+    private final ArrayList<Pezzo> tank;
        
     /**
      * Costruttore parametrico
@@ -87,6 +90,7 @@ public class CarroLineare extends CarroCantiere{
     
     /**
      * Attacco dei guastatori
+     * @param hidden    valore booleano che indica se il carro è nascosto o no
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
     public int sapperAttack (boolean hidden){
@@ -104,5 +108,38 @@ public class CarroLineare extends CarroCantiere{
         for(Pezzo tmp:tank) ris+=tmp.toString();
         return "CarroLineare attualmente composto da "+tank.size()+" pezzi." +ris + super.toString();
     }//toString
+
+    /**
+     * Disegna il carro nella griglia
+     * @param g2 grafica
+     * @param dimX  dimensione quadretti X
+     * @param dimY  dimensione quadretti Y
+     */
+    @Override
+    public void draw(Graphics2D g2, int dimX, int dimY){
+        draw(g2, dimX, dimY, false, false);
+    }//draw
+    
+    /**
+     * Disegna la grafica di CarroLineare e CarroTalpa
+     * @param g2    grafica
+     * @param dimX  dimensione X cella griglia
+     * @param dimY  dimensione Y cella griglia
+     * @param talpa true se il carro è talpa, false altrimenti
+     * @param hidden    true se il carro è nascosto, false altrimenti
+     */
+    public void draw(Graphics2D g2, int dimX, int dimY, boolean talpa, boolean hidden){
+        int x=getPos().getX(), y=getPos().getY();
+        for(int i=x; i<tank.size(); i++){
+            g2.setColor(Color.BLACK);
+            g2.drawString(""+tank.get(i).getNum(),x*dimX+3,y*dimY);
+            if(talpa && hidden) g2.setColor(Color.GRAY);
+            else if(talpa && !hidden) g2.setColor(Color.BLUE);
+            else g2.setColor(Color.RED);
+            Rectangle rect = new Rectangle(40+(i*dimX),25+dimY*y,dimX,dimY);
+            g2.draw(rect);
+            g2.fill(rect);
+        }        
+    }
     
 }//CarroLineare

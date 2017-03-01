@@ -45,6 +45,14 @@ public class Pezzo {
     public boolean stato(){
         return (energy==100);
     }//stato
+
+    /**
+     * Restituisce il numero del pezzo
+     * @return numero del pezzo
+     */
+    public int getNum() {
+        return num;
+    }//getNum
     
     /**
      * Restituisce una stringa significativa sull'oggetto
