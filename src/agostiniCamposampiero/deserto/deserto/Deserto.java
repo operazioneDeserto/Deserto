@@ -461,7 +461,7 @@ public class Deserto extends JFrame implements ActionListener{
             addCarro.setEnabled(false);
             start.setEnabled(false);
             sendMex("Il simulatore è stato avviato!");
-            //blindCannon();
+            blindCannon();
         } else if(e.getSource()==stop){
             //Pulsante per stop
          /**if (!Thread.interrupted()){
@@ -481,30 +481,28 @@ public class Deserto extends JFrame implements ActionListener{
         String s="";
         int c=0;
         int attack=0;
-        while (bullets>0 && !armata.isEmpty()){
+        while (bullets>0 || armata.isEmpty()){
             Posizione hit=strategy.nextHit();
             s = "sabbia";
-            while(s.equals("sabbia") && c<= armata.size()-1){
+            while(c<=armata.size()-1){
                 int result=armata.get(c).fuoco(hit);
                 if (result<0){
                     s = "distrutto";
                     strategy.hitFeedback(result);
+                    playSound(true);
+                    armata.remove(c);
                     break;
                 }
                 else if (result == 0){
                     s="colpito";
                     strategy.hitFeedback(result);
-                    break;
-                }
-                if(s.equals("colpito")){
                     playSound(true);
-                    if (armata.get(c).distrutto()) armata.remove(c);
+                    break;
                 }
                 else playSound(false);
                 c++;
             }
             strategy.hitFeedback(1);
-            sendMex("fuoco in "+hit.toString()+": "+s);
             for (int i=0; i<armata.size(); i++){
                 attack+=armata.get(i).sapperAttack();
             }
@@ -513,11 +511,12 @@ public class Deserto extends JFrame implements ActionListener{
                 try{
                     Thread.sleep(60000);
                     bullets-=12;
+                    sendMex("I guastatori hanno sabotato con successo il cannone");
                 } catch (InterruptedException e){
                     System.out.println(e);
                 }
             }
-            
+            sendMex("fuoco in "+hit.toString()+": "+s);            
             System.out.println("fuoco in " + hit.toString() + ": " + s);
             c = 0;
             bullets--;
@@ -528,9 +527,9 @@ public class Deserto extends JFrame implements ActionListener{
             }
         }
         if (bullets > 0) {
-            System.out.print("il cannone cieco ti ha distrutto!");
+            sendMex("il cannone cieco ti ha distrutto!");
         } else {
-            System.out.print("sei sfuggito alla furia del cannone cieco!");
+            sendMex("sei sfuggito alla furia del cannone cieco!");
         }
     }
     
