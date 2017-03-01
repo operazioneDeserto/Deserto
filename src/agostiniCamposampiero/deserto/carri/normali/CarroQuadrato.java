@@ -121,6 +121,26 @@ public class CarroQuadrato extends CarroCantiere {
                 g2.drawString(""+tank.get((i*lato+j)).getNum(),44+(x+j-1)*dimX,22+dimY*(y+i));
             }
         }
-    }
+    }//draw
+    
+   /**
+     * Verifica se una posizione è presente all'interno del carro
+     * @param pos   posizione
+     * @return true se è presente, false altrimenti
+     */
+    @Override
+    public boolean present(Posizione pos) {
+        Posizione tmp = getPos();
+        int x=tmp.getX(), y=tmp.getY(), lato=(int)Math.sqrt(getNum());
+        int righe = lato -(getNum()-tank.size())/lato;
+        for (int i = 0; i <righe; i++) {
+            int a = tank.size()-i*lato>lato?lato:tank.size()-i*lato;
+            for (int j = 0; j <a; j++) {
+                if(tmp.equals(pos)) return true;
+                tmp = new Posizione(++x,y);
+            }
+        }
+        return false;
+    }//present
 
 }//CarroQuadrato

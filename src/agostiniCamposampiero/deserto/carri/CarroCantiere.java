@@ -72,6 +72,13 @@ public abstract class CarroCantiere {
     public abstract void draw(Graphics2D g2, int dimX, int dimY);
     
     /**
+     * Verifica se una posizione è presente all'interno del carro
+     * @param pos   posizione
+     * @return true se è presente, false altrimenti
+     */
+    public abstract boolean present(Posizione pos);
+    
+    /**
      * Restituisce una stringa significativa sull'oggetto
      * @return stringa significativa
      */

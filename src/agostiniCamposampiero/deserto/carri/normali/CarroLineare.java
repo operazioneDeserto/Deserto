@@ -141,5 +141,21 @@ public class CarroLineare extends CarroCantiere{
             g2.drawString(""+tank.get(i).getNum(),(i+x)*dimX+25,y*dimY+22);
         }        
     }
+
+    /**
+     * Verifica se una posizione è presente all'interno del carro
+     * @param pos   posizione
+     * @return true se è presente, false altrimenti
+     */
+    @Override
+    public boolean present(Posizione pos) {
+        Posizione tmp = getPos();
+        int x=tmp.getX(), y=tmp.getY();
+        for(int i=0; i<tank.size();i++){
+            if(tmp.equals(pos)) return true;
+            tmp = new Posizione(++x,y);
+        }
+        return false;
+    }//present
     
 }//CarroLineare

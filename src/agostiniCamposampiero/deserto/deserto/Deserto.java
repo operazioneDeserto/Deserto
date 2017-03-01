@@ -68,10 +68,13 @@ public class Deserto extends JFrame implements ActionListener{
     private JTextField dimCarro;
     private JTextField coordCarroX;
     private JTextField coordCarroY;
+    private JTextField cordCarroTalpaX;
+    private JTextField cordCarroTalpaY;   
     private JButton addCarro;
     private JButton start;
     private JButton stop;
     private JButton exit;
+    private JButton covUncov;
 
     /**
      * Costruttore non parametrico
@@ -84,7 +87,7 @@ public class Deserto extends JFrame implements ActionListener{
         sendMex("**********************************************\n"
                +"         Simulatore di battaglia Deserto         \n"
                +"  **********************************************");
-        sendMex("Avviamento simulatore...");
+        sendMex("Avvio simulatore...");
         //carri
         armata = new ArrayList <>();
         
@@ -216,6 +219,22 @@ public class Deserto extends JFrame implements ActionListener{
         addCarro = new JButton("Aggiungi");
         addCarro.addActionListener(this);
         addCarro.setEnabled(false);
+        //Separatore
+        JSeparator separatore2 = new JSeparator(JSeparator.HORIZONTAL);
+        //Carro Talpa sotterrato/dissotterrato
+        JLabel coverUncover = new JLabel();
+        coverUncover.setText("Copri/Scopri CarroTalpa");
+        coverUncover.setFont(new Font("Tahoma",Font.BOLD, 11));
+        //Coordinate carro
+        cordCarroTalpaX = new JTextField();
+        cordCarroTalpaX.setText("CoordX");
+        cordCarroTalpaX.setEditable(false);
+        cordCarroTalpaY = new JTextField();
+        cordCarroTalpaY.setEditable(false);        
+        cordCarroTalpaY.setText("CoordY");
+        //Pulsante CoverUncover
+        covUncov = new JButton("Copri/Scopri");
+        covUncov.addActionListener(this);
         //Tre bottoni 
         start = new JButton("Start");
         start.addActionListener(this);       
@@ -225,6 +244,7 @@ public class Deserto extends JFrame implements ActionListener{
         stop.setEnabled(false);
         exit = new JButton("Exit");
         exit.addActionListener(this); 
+        
         //Layout
         GroupLayout layout = new GroupLayout(controllo);
         controllo.setLayout(layout);
@@ -232,6 +252,7 @@ public class Deserto extends JFrame implements ActionListener{
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addGap(20,20,20)
                     .addComponent(separatore, GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -252,7 +273,7 @@ public class Deserto extends JFrame implements ActionListener{
                                     .addComponent(subTitleDiff)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
-                                .addComponent(saveOptions))
+                                .addComponent(saveOptions)).addComponent(separatore, GroupLayout.Alignment.CENTER)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(subTitleTank))
@@ -270,6 +291,15 @@ public class Deserto extends JFrame implements ActionListener{
                                         .addGap(18, 18, 18)                                            
                                         .addComponent(addCarro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(separatore2, GroupLayout.Alignment.CENTER)
+                        .addComponent(coverUncover)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(20,20,20)
+                            .addComponent(cordCarroTalpaX)
+                            .addGap(20,20,20)
+                            .addComponent(cordCarroTalpaY)
+                                .addGap(20,20,20)
+                            .addComponent(covUncov))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(start)
@@ -307,8 +337,17 @@ public class Deserto extends JFrame implements ActionListener{
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(coordCarroX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(coordCarroY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addCarro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))                
-                .addGap(34, 34, 34)
+                    .addComponent(addCarro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))  
+                    
+                .addGap(10, 10, 10)
+                .addComponent(separatore2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+                .addComponent(coverUncover)
+                    .addGap(15,15,15)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(cordCarroTalpaX)
+                    .addComponent(cordCarroTalpaY)
+                    .addComponent(covUncov))
+                .addGap(20,20,20)   
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(start)
                     .addComponent(stop)
@@ -394,11 +433,20 @@ public class Deserto extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(pannelloCtrl, "Formato dei campi numerici sbagliato sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
             }
             repaint();
+        } else if(e.getSource()==covUncov){
+            try{
+                int x=Integer.parseInt(cordCarroTalpaX.getText()), y=Integer.parseInt(cordCarroTalpaY.getText());
+                
+            } catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(pannelloCtrl, "Formato delle coordinate del campo sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
+            }
         } else if(e.getSource()==start){
             //Pulsante per far partire il cannone
             tipo.setEnabled(false);
             coordCarroX.setEditable(false);
             coordCarroY.setEditable(false);
+            cordCarroTalpaX.setEditable(true);
+            cordCarroTalpaY.setEditable(true);
             dimCarro.setEditable(false);
             addCarro.setEnabled(false);
             start.setEnabled(false);
