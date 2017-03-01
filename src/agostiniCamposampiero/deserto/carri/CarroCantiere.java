@@ -61,7 +61,7 @@ public abstract class CarroCantiere {
      * Attacco dei guastatori
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
-    public abstract int sapperAttack();
+    public abstract double sapperAttack();
     
     /**
      * Disegna il carro nella griglia

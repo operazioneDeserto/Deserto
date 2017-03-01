@@ -67,14 +67,11 @@ public class CarroLineare extends CarroCantiere{
         int x=tmp.getX(), y=tmp.getY();
         for(int i=0; i<tank.size(); i++){
             if(pos.equals(tmp)){
-                System.out.println("Posizione pezzo colpito: "+tmp.toString());
                 if(tank.get(i).hit(hidden)) tank.remove(i);
                 if(distrutto()) return -1;
                 else return 0;
             }
-            System.out.println(tmp);
             tmp = new Posizione(++x,y);
-            System.out.println("dopo:"+tmp.toString());
         }
         return 1;
     }//fuoco
@@ -84,8 +81,8 @@ public class CarroLineare extends CarroCantiere{
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
     @Override
-    public int sapperAttack (){
-        return sapperAttack (false);
+    public double sapperAttack (){
+        return sapperAttack (true);
     }
     
     /**
@@ -93,8 +90,8 @@ public class CarroLineare extends CarroCantiere{
      * @param hidden    valore booleano che indica se il carro è nascosto o no
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
-    public int sapperAttack (boolean hidden){
-        if (!hidden) return tank.size()*2;
+    public double sapperAttack (boolean hidden){
+        if (!hidden) return tank.size()*0.5;
         return 0;
     }
     

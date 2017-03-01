@@ -84,7 +84,7 @@ public class CarroQuadrato extends CarroCantiere {
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
     @Override
-    public int sapperAttack (){
+    public double sapperAttack (){
         return 0;
     }
     

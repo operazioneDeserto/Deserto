@@ -53,10 +53,12 @@ public class Deserto extends JFrame implements ActionListener{
     private final int TIME = 5000;
     private int bullets;
     private Strategy strategy;
-    private boolean[][] state;
     private final static int HEIGHT = 18;
     private final static int WIDTH = 36;
     private Timer timer;
+    private boolean stopped;
+    private boolean sabotaged;
+    
     
     //Grafica
     private final JFrame pannelloCtrl;
@@ -91,7 +93,7 @@ public class Deserto extends JFrame implements ActionListener{
         //carri
         armata = new ArrayList <>();       
         //colpi del cannone
-        bullets=150;
+        bullets=350;
         frameDeserto();
     }//Costruttore
 
@@ -148,10 +150,9 @@ public class Deserto extends JFrame implements ActionListener{
     private void frameMessaggi(){
         messaggi.setTitle("Messaggi dal simulatore");
         areaMex.setEditable(false);
-        DefaultCaret caret = (DefaultCaret)areaMex.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        areaMex.setCaretPosition(areaMex.getDocument().getLength());
         messaggi.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        JScrollPane scroll = new JScrollPane (areaMex, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroll = new JScrollPane (areaMex);
         messaggi.add(scroll);
         messaggi.setVisible(true);      
     }//frameMessaggi
@@ -164,6 +165,7 @@ public class Deserto extends JFrame implements ActionListener{
     private void frameControllo(int x, int y){
         pannelloCtrl.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         pannelloCtrl.setTitle("Pannello");
+        pannelloCtrl.setResizable(false);
         //Titolo
         JPanel controllo = new JPanel();
         JLabel title = new JLabel();
@@ -238,7 +240,7 @@ public class Deserto extends JFrame implements ActionListener{
         start = new JButton("Start");
         start.addActionListener(this);       
         start.setEnabled(false);
-        stop = new JButton("Stop");
+        stop = new JButton("Pause");
         stop.addActionListener(this);
         stop.setEnabled(false);
         exit = new JButton("Exit");
@@ -391,7 +393,6 @@ public class Deserto extends JFrame implements ActionListener{
                 dimCarro.setEditable(true);
                 addCarro.setEnabled(true);
                 start.setEnabled(true);
-                stop.setEnabled(true);
                 repaint();
             } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(pannelloCtrl, "Formato delle coordinate del campo sbagliato!","Errore!",JOptionPane.ERROR_MESSAGE);
@@ -458,33 +459,39 @@ public class Deserto extends JFrame implements ActionListener{
             repaint();
         } else if(e.getSource()==start){
             //Pulsante per far partire il cannone
-            tipo.setEnabled(false);
-            coordCarroX.setEditable(false);
-            coordCarroY.setEditable(false);
-            cordCarroTalpaX.setEditable(true);
-            cordCarroTalpaY.setEditable(true);
-            covUncov.setEnabled(true);
-            dimCarro.setEditable(false);
-            addCarro.setEnabled(false);
-            start.setEnabled(false);
-            timer = new Timer(TIME, this);
-            timer.start();
-            sendMex("Il simulatore è stato avviato!");
-            blindCannon();
+            if(stopped){
+                timer = new Timer(TIME, this);
+                timer.start();
+                stopped = false;
+                stop.setEnabled(true);
+                start.setEnabled(false);
+                blindCannon();
+            } else {
+                tipo.setEnabled(false);
+                coordCarroX.setEditable(false);
+                coordCarroY.setEditable(false);
+                cordCarroTalpaX.setEditable(true);
+                cordCarroTalpaY.setEditable(true);
+                covUncov.setEnabled(true);
+                dimCarro.setEditable(false);
+                addCarro.setEnabled(false);
+                start.setEnabled(false);
+                timer = new Timer(TIME, this);
+                stopped = false;
+                stop.setEnabled(true);
+                timer.start();
+                sendMex("Il simulatore è stato avviato!");
+                blindCannon();
+            }
         } else if(e.getSource()==timer){
             blindCannon();
         }
         else if(e.getSource()==stop){
-            //Pulsante per stop
-         /**if (!Thread.interrupted()){
-                try {
-                    Thread.sleep(999999999);
-                    sendMex("Gioco in pausa, premere nuovamente sul tasto STOP per riprendere la partita");
-                } catch (InterruptedException ex) {
-                    System.out.println(ex);
-                }
-            }
-     */ } else if(e.getSource()==exit) System.exit(0); //Pulsante di uscita
+            stopped = true;
+            timer.stop();
+            start.setEnabled(true);
+            stop.setEnabled(false);
+        } else if(e.getSource()==exit) System.exit(0); //Pulsante di uscita
     }//actionPerformed
     
     /**
@@ -492,6 +499,7 @@ public class Deserto extends JFrame implements ActionListener{
      */
     public void blindCannon (){
         if (bullets>0 && !armata.isEmpty()){
+            
             timer = new Timer(TIME, this);
             timer.start();
             Posizione hit=strategy.nextHit();
@@ -511,10 +519,13 @@ public class Deserto extends JFrame implements ActionListener{
                     break;
                 } 
             }
-            if(result>0) playSound(false);
-            int attack=0;
+            if(result>0){
+                playSound(false);
+                sendMex("Fuoco in: "+hit.toString()+" . Il colpo non è andato a segno!");
+            }
+            double attack=0;
             for (CarroCantiere tmp:armata) attack+=tmp.sapperAttack();
-            if(attack>=((int) (Math.random() * 100))){
+            if(attack>=(Math.random()*100)){
                 timer = new Timer(60000, this);
                 timer.start();
                 bullets-=12;
@@ -522,8 +533,12 @@ public class Deserto extends JFrame implements ActionListener{
             }
             bullets--;
         }
-        if (bullets > 0) sendMex("il cannone cieco ti ha distrutto!");
-        else sendMex("sei sfuggito alla furia del cannone cieco!");
+        else{
+            if(bullets==0) sendMex("I carri sono resistiti al bombardamento!");
+            else sendMex("Il cannone ha distrutto tutti i carri!");
+            timer.stop();
+            stop.setEnabled(false);
+        }
     }//blindCannon
     
     /**

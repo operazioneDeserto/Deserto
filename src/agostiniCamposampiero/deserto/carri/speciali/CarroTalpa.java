@@ -35,7 +35,7 @@ public class CarroTalpa extends CarroLineare{
      * @return percentuale di riuscita dell'assalto di una squadra di guastatori
      */
     @Override
-    public int sapperAttack (){
+    public double sapperAttack (){
         return super.sapperAttack(hidden);
     }
     
