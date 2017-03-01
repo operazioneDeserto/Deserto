@@ -38,6 +38,10 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -124,6 +128,7 @@ public class Deserto extends JFrame implements ActionListener{
         int heightGriglia=screenSize.height/10*6, widthGriglia=(int)(screenSize.width/10*7.5);
         setBounds(20,20,widthGriglia, heightGriglia);
         setVisible(true);
+        setResizable(false);
         add(new Griglia());
         messaggi.setBounds(20,heightGriglia+40,(int)(screenSize.width-40), screenSize.height/10*3);
         pannelloCtrl.setBounds(40+widthGriglia,20,(int)(screenSize.width/10*2)+10, heightGriglia);
@@ -514,7 +519,12 @@ public class Deserto extends JFrame implements ActionListener{
             Graphics2D g2 = (Graphics2D) g;
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int x=(int)(screenSize.width/10*7.5-70)/WIDTH, y=(screenSize.height/10*6-70)/HEIGHT;
-
+            try {                
+                BufferedImage image = ImageIO.read(new File("src/agostiniCamposampiero/deserto/resources/sand.png"));
+                g2.drawImage(image,40,25,WIDTH*x,HEIGHT*y,this);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
             for(int i=1; i<=WIDTH; i++){
                 if(i<10) g2.drawString("0"+i,18+i*x,20);
                 else g2.drawString(""+i,18+i*x,20);
