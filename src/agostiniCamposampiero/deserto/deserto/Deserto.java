@@ -431,6 +431,7 @@ public class Deserto extends JFrame implements ActionListener{
             bullets--;
             try {
                 Thread.sleep(TIME);
+                bullets-=12;
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
@@ -440,6 +441,34 @@ public class Deserto extends JFrame implements ActionListener{
         } else {
             System.out.print("sei sfuggito alla furia del cannone cieco!");
         }
+    }
+    
+    /**
+     * Controlla i parametri delle impostazioni del gioco (altezza e larghezza del campo)
+     * @param height altezza del campo
+     * @param width larghezza del campo
+     * @return true se le grandezze sono accettabili, false altrimenti
+    */
+    private boolean optionControl (int height, int width){
+        return (width<50 && height<25 && width>0 && height>0);
+    }
+    
+    /**
+     * Controlla le proprietà inserite al carro
+     * @param dim dimensione del carro
+     * @param x cordinata x della posizione del carro nel campo
+     * @param y coordinata y della posizione del carro nel campo
+     * @param tipoCarro
+     * @return 
+    */
+    private boolean tankPropertyControl (int dim, int x, int y, String tipoCarro){
+        if (x<=0 || x>18 || y<=0 || y>36) return false;
+        if (tipoCarro.equals("CarroQuadrato")){
+            if (((int)Math.sqrt(dim) + x)>36 || ((int)Math.sqrt(dim) + y)>18 || dim <=0) return false;
+        }else{
+            if ((dim + x)>36 || dim<=0) return false;
+        }
+        return true;
     }
     
     /**
