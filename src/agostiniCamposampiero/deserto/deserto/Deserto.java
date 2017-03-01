@@ -371,16 +371,25 @@ public class Deserto extends JFrame implements ActionListener{
                 String tipoCarro = (String) tipo.getSelectedItem();
                 switch (tipoCarro) {
                     case "CarroLineare":
-                        armata.add(new CarroLineare(new Posizione(x,y),dim));
-                        sendMex("Carro creato!");
+                        if (tankPropertyControl(dim, x, y, tipoCarro)){
+                            armata.add(new CarroLineare(new Posizione(x,y),dim));
+                            sendMex("Carro creato!");
+                        } 
+                        else sendMex("Parametri del carro non accettabili");
                         break;
                     case "CarroQuadrato":
-                        armata.add(new CarroQuadrato(new Posizione(x,y),dim));
-                        sendMex("Carro creato!");
+                        if (tankPropertyControl(dim, x, y, tipoCarro)){
+                            armata.add(new CarroQuadrato(new Posizione(x,y),dim));
+                            sendMex("Carro creato!");
+                        } 
+                        else sendMex("Parametri del carro non accettabili");
                         break;
                     case "CarroTalpa":
-                        armata.add(new CarroTalpa(new Posizione(x-1,y), dim, false));
-                        sendMex("Carro creato!");
+                        if (tankPropertyControl(dim, x, y, tipoCarro)){
+                            armata.add(new CarroTalpa(new Posizione(x,y),dim,true));
+                            sendMex("Carro creato!");
+                        } 
+                        else sendMex("Parametri del carro non accettabili");
                         break;
                     default:
                         sendMex("Non è stato possibile creare il carro!");
@@ -407,12 +416,11 @@ public class Deserto extends JFrame implements ActionListener{
     
     
     public void blindCannon (){
-        int height = 15, width = 15;
         String s="";
         int c=0;
-        DifficultStrategy strat = new DifficultStrategy (height, width);       
+        int attack=0;     
         while (bullets>0 && !armata.isEmpty()){
-            Posizione hit=strat.nextHit();
+            Posizione hit=strategy.nextHit();
             s = "sabbia";
             while(s.equals("sabbia") && c<= armata.size()-1){
                 int result=armata.get(c).fuoco(hit);
@@ -425,13 +433,24 @@ public class Deserto extends JFrame implements ActionListener{
                 else playSound(false);
                 c++;
             }
+            for (int i=0; i<armata.size(); i++){
+                attack+=armata.get(i).sapperAttack();
+            }
+            int rand = (int)Math.random()*100;
+            if(attack>=rand){
+                try{
+                    Thread.sleep(60000);
+                    bullets-=12;
+                } catch (InterruptedException e){
+                    System.out.println(e);
+                }
+            }
             
             System.out.println("fuoco in " + hit.toString() + ": " + s);
             c = 0;
             bullets--;
             try {
                 Thread.sleep(TIME);
-                bullets-=12;
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
@@ -462,11 +481,13 @@ public class Deserto extends JFrame implements ActionListener{
      * @return 
     */
     private boolean tankPropertyControl (int dim, int x, int y, String tipoCarro){
-        if (x<=0 || x>18 || y<=0 || y>36) return false;
+        if (x<=0 || x>WIDTH || y<=0 || y>HEIGHT) return false;
+        double size = (double) dim;
         if (tipoCarro.equals("CarroQuadrato")){
-            if (((int)Math.sqrt(dim) + x)>36 || ((int)Math.sqrt(dim) + y)>18 || dim <=0) return false;
+            if (dim%Math.sqrt(size)!=0) return false;
+            if (((int)Math.sqrt(size) + x)>WIDTH || ((int)Math.sqrt(size) + y)>HEIGHT || dim <=0) return false;
         }else{
-            if ((dim + x)>36 || dim<=0) return false;
+            if ((dim + x)>WIDTH || dim<=0) return false;
         }
         return true;
     }
