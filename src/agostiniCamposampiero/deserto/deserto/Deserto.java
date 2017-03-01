@@ -88,6 +88,7 @@ public class Deserto extends JFrame implements ActionListener{
         bullets=150;
         
         frameDeserto();
+        blindCannon();
     }//Costruttore
 
     /**
@@ -401,7 +402,15 @@ public class Deserto extends JFrame implements ActionListener{
             //blindCannon();
         } else if(e.getSource()==stop){
             //Pulsante per stop
-        } else if(e.getSource()==exit) System.exit(0); //Pulsante di uscita
+         /**if (!Thread.interrupted()){
+                try {
+                    Thread.sleep(999999999);
+                    sendMex("Gioco in pausa, premere nuovamente sul tasto STOP per riprendere la partita");
+                } catch (InterruptedException ex) {
+                    System.out.println(ex);
+                }
+            }
+     */ } else if(e.getSource()==exit) System.exit(0); //Pulsante di uscita
     }//actionPerformed
      
     
@@ -409,14 +418,22 @@ public class Deserto extends JFrame implements ActionListener{
     public void blindCannon (){
         String s="";
         int c=0;
-        int attack=0;     
+        int attack=0;
         while (bullets>0 && !armata.isEmpty()){
             Posizione hit=strategy.nextHit();
             s = "sabbia";
             while(s.equals("sabbia") && c<= armata.size()-1){
                 int result=armata.get(c).fuoco(hit);
-                if (result<0) s = "distrutto";
-                else if (result == 0) s="colpito";
+                if (result<0){
+                    s = "distrutto";
+                    strategy.hitFeedback(result);
+                    break;
+                }
+                else if (result == 0){
+                    s="colpito";
+                    strategy.hitFeedback(result);
+                    break;
+                }
                 if(s.equals("colpito")){
                     playSound(true);
                     if (armata.get(c).distrutto()) armata.remove(c);
@@ -424,6 +441,8 @@ public class Deserto extends JFrame implements ActionListener{
                 else playSound(false);
                 c++;
             }
+            strategy.hitFeedback(1);
+            sendMex("fuoco in "+hit.toString()+": "+s);
             for (int i=0; i<armata.size(); i++){
                 attack+=armata.get(i).sapperAttack();
             }
@@ -476,9 +495,9 @@ public class Deserto extends JFrame implements ActionListener{
         double size = (double) dim;
         if (tipoCarro.equals("CarroQuadrato")){
             if (dim%Math.sqrt(size)!=0) return false;
-            if (((int)Math.sqrt(size) + x)>WIDTH || ((int)Math.sqrt(size) + y)>HEIGHT || dim <=0) return false;
+            if (((int)Math.sqrt(size) + x-1)>WIDTH || ((int)Math.sqrt(size) + y-1)>HEIGHT || dim <=0) return false;
         }else{
-            if ((dim + x)>WIDTH || dim<=0) return false;
+            if ((dim + x-1)>WIDTH || dim<=0) return false;
         }
         return true;
     }
