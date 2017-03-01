@@ -13,8 +13,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +40,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
 
 /**
  *
@@ -57,6 +56,7 @@ public class Deserto extends JFrame implements ActionListener{
     private boolean[][] state;
     private final static int HEIGHT = 18;
     private final static int WIDTH = 36;
+    private Timer timer;
     
     //Grafica
     private final JFrame pannelloCtrl;
@@ -89,11 +89,9 @@ public class Deserto extends JFrame implements ActionListener{
                +"  **********************************************");
         sendMex("Avvio simulatore...");
         //carri
-        armata = new ArrayList <>();
-        
+        armata = new ArrayList <>();       
         //colpi del cannone
         bullets=150;
-        
         frameDeserto();
     }//Costruttore
 
@@ -412,7 +410,7 @@ public class Deserto extends JFrame implements ActionListener{
                         } 
                         else{
                             JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
-                            sendMex("Parametri del carro non accettabili");
+                            sendMex("Parametri del carro non accettabili.");
                         }
                         break;
                     case "CarroQuadrato":
@@ -422,7 +420,7 @@ public class Deserto extends JFrame implements ActionListener{
                         } 
                         else{
                             JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
-                            sendMex("Parametri del carro non accettabili");
+                            sendMex("Parametri del carro non accettabili.");
                         }
                         break;
                     case "CarroTalpa":
@@ -432,7 +430,7 @@ public class Deserto extends JFrame implements ActionListener{
                         } 
                         else{
                             JOptionPane.showMessageDialog(pannelloCtrl, "Carro non valido!","Errore!",JOptionPane.ERROR_MESSAGE);
-                            sendMex("Parametri del carro non accettabili");
+                            sendMex("Parametri del carro non accettabili.");
                         }
                         break;
                     default:
@@ -469,9 +467,14 @@ public class Deserto extends JFrame implements ActionListener{
             dimCarro.setEditable(false);
             addCarro.setEnabled(false);
             start.setEnabled(false);
+            timer = new Timer(TIME, this);
+            timer.start();
             sendMex("Il simulatore è stato avviato!");
             blindCannon();
-        } else if(e.getSource()==stop){
+        } else if(e.getSource()==timer){
+            blindCannon();
+        }
+        else if(e.getSource()==stop){
             //Pulsante per stop
          /**if (!Thread.interrupted()){
                 try {
@@ -483,64 +486,45 @@ public class Deserto extends JFrame implements ActionListener{
             }
      */ } else if(e.getSource()==exit) System.exit(0); //Pulsante di uscita
     }//actionPerformed
-     
     
-    
+    /**
+     * Cannone che spara seguendo la strategia Strategy
+     */
     public void blindCannon (){
-        String s="";
-        int c=0;
-        int attack=0;
-        while (bullets>0 || armata.isEmpty()){
+        if (bullets>0 && !armata.isEmpty()){
+            timer = new Timer(TIME, this);
+            timer.start();
             Posizione hit=strategy.nextHit();
-            s = "sabbia";
-            while(c<=armata.size()-1){
-                int result=armata.get(c).fuoco(hit);
-                if (result<0){
-                    s = "distrutto";
-                    strategy.hitFeedback(result);
+            int result = 1;
+            for(CarroCantiere tmp:armata){
+                result = tmp.fuoco(hit);
+                strategy.hitFeedback(result);
+                if(result<0){
                     playSound(true);
-                    armata.remove(c);
+                    sendMex("Fuoco in: "+hit.toString()+" . Il carro è stato distrutto!");
+                    armata.remove(tmp);
                     break;
                 }
-                else if (result == 0){
-                    s="colpito";
-                    strategy.hitFeedback(result);
+                else if (result==0){
                     playSound(true);
+                    sendMex("Fuoco in: "+hit.toString()+" . Il carro è stato colpito!");
                     break;
-                }
-                else playSound(false);
-                c++;
+                } 
             }
-            strategy.hitFeedback(1);
-            for (int i=0; i<armata.size(); i++){
-                attack+=armata.get(i).sapperAttack();
+            if(result>0) playSound(false);
+            int attack=0;
+            for (CarroCantiere tmp:armata) attack+=tmp.sapperAttack();
+            if(attack>=((int) (Math.random() * 100))){
+                timer = new Timer(60000, this);
+                timer.start();
+                bullets-=12;
+                sendMex("I guastatori hanno sabotato con successo il cannone!");
             }
-            int rand = (int)Math.random()*100;
-            if(attack>=rand){
-                try{
-                    Thread.sleep(60000);
-                    bullets-=12;
-                    sendMex("I guastatori hanno sabotato con successo il cannone");
-                } catch (InterruptedException e){
-                    System.out.println(e);
-                }
-            }
-            sendMex("fuoco in "+hit.toString()+": "+s);            
-            System.out.println("fuoco in " + hit.toString() + ": " + s);
-            c = 0;
             bullets--;
-            try {
-                Thread.sleep(TIME);
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
         }
-        if (bullets > 0) {
-            sendMex("il cannone cieco ti ha distrutto!");
-        } else {
-            sendMex("sei sfuggito alla furia del cannone cieco!");
-        }
-    }
+        if (bullets > 0) sendMex("il cannone cieco ti ha distrutto!");
+        else sendMex("sei sfuggito alla furia del cannone cieco!");
+    }//blindCannon
     
     /**
      * Controlla le proprietà inserite al carro
