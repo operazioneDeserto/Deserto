@@ -110,15 +110,15 @@ public class CarroQuadrato extends CarroCantiere {
     public void draw(Graphics2D g2, int dimX, int dimY) {
         int x=getPos().getX(), y=getPos().getY(), lato=(int)Math.sqrt(getNum());
         int righe = lato -(getNum()-tank.size())/lato;
-        for (int i = 1; i <= righe; i++) {
+        for (int i = 0; i <righe; i++) {
             int a = tank.size()-i*lato>lato?lato:tank.size()-i*lato;
-            for (int j = 1; j <= a; j++) {
-                g2.setColor(Color.BLACK);
-                g2.drawString(""+tank.get(i).getNum(),x*dimX+3,y*dimY);
+            for (int j = 0; j <a; j++) {
                 g2.setColor(Color.GREEN);
-                Rectangle rect = new Rectangle(40+(i*dimX),25+dimY*y,dimX,dimY);
+                Rectangle rect = new Rectangle(40+(x+j-1)*dimX,25+dimY*(y+i-1),dimX,dimY);
                 g2.draw(rect);
                 g2.fill(rect);
+                g2.setColor(Color.BLACK);
+                g2.drawString(""+tank.get((i*lato+j)).getNum(),44+(x+j-1)*dimX,22+dimY*(y+i));
             }
         }
     }

@@ -130,15 +130,15 @@ public class CarroLineare extends CarroCantiere{
      */
     public void draw(Graphics2D g2, int dimX, int dimY, boolean talpa, boolean hidden){
         int x=getPos().getX(), y=getPos().getY();
-        for(int i=x; i<tank.size(); i++){
-            g2.setColor(Color.BLACK);
-            g2.drawString(""+tank.get(i).getNum(),x*dimX+3,y*dimY);
+        for(int i=0; i<tank.size(); i++){
             if(talpa && hidden) g2.setColor(Color.GRAY);
             else if(talpa && !hidden) g2.setColor(Color.BLUE);
             else g2.setColor(Color.RED);
-            Rectangle rect = new Rectangle(40+(i*dimX),25+dimY*y,dimX,dimY);
+            Rectangle rect = new Rectangle(40+((i+x-1)*dimX),25+dimY*(y-1),dimX,dimY);
             g2.draw(rect);
             g2.fill(rect);
+            g2.setColor(Color.BLACK);
+            g2.drawString(""+tank.get(i).getNum(),(i+x)*dimX+25,y*dimY+22);
         }        
     }
     

@@ -88,7 +88,6 @@ public class Deserto extends JFrame implements ActionListener{
         bullets=150;
         
         frameDeserto();
-        blindCannon();
     }//Costruttore
 
     /**
@@ -470,16 +469,6 @@ public class Deserto extends JFrame implements ActionListener{
         } else {
             System.out.print("sei sfuggito alla furia del cannone cieco!");
         }
-    }
-    
-    /**
-     * Controlla i parametri delle impostazioni del gioco (altezza e larghezza del campo)
-     * @param height altezza del campo
-     * @param width larghezza del campo
-     * @return true se le grandezze sono accettabili, false altrimenti
-    */
-    private boolean optionControl (int height, int width){
-        return (width<50 && height<25 && width>0 && height>0);
     }
     
     /**

@@ -2,9 +2,7 @@ package agostiniCamposampiero.deserto.carri.speciali;
 
 import agostiniCamposampiero.deserto.carri.normali.CarroLineare;
 import agostiniCamposampiero.deserto.pos.Posizione;
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 /**
  *
