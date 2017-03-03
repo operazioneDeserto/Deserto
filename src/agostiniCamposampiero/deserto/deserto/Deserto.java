@@ -484,7 +484,7 @@ public class Deserto extends JFrame implements ActionListener{
                 stopped = false;
                 stop.setEnabled(true);
                 timer.start();
-                sendMex("Il simulatore è stato avviato!");
+                sendMex("Il simulatore è stato avviato!\n");
                 blindCannon();
             }
         } else if(e.getSource()==timer){
@@ -513,7 +513,6 @@ public class Deserto extends JFrame implements ActionListener{
             int result = 1;
             for(CarroCantiere tmp:armata){
                 result = tmp.fuoco(hit);
-                strategy.hitFeedback(result);
                 if(result<0){
                     playSound(true);
                     sendMex("Fuoco in: "+hit.toString()+". Il carro è stato distrutto!");
@@ -530,6 +529,8 @@ public class Deserto extends JFrame implements ActionListener{
                 playSound(false);
                 sendMex("Fuoco in: "+hit.toString()+". Il colpo non è andato a segno!");
             }
+            strategy.hitFeedback(result);
+            sendMex("Proiettili residui: "+bullets+".\n");
             double attack=0;
             for (CarroCantiere tmp:armata) attack+=tmp.sapperAttack();
             if(attack>=(Math.random()*100)){
